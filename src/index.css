@@ -2,7 +2,7 @@
 
 @theme {
   --height-header: 70px;
-  --height-footer: 60px;
+  --height-footer: 100px;
 
   --animate-stars: stars 10s linear infinite;
   @keyframes stars {
