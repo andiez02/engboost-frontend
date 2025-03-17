@@ -28,7 +28,7 @@ function Header() {
 
   return (
     <header
-      className={`h-[var(--height-header)] fixed top-0 left-0 w-screen flex justify-around transition-colors duration-500 ease-in-out ${
+      className={`h-[var(--height-header)] fixed top-0 left-0 w-screen flex justify-around transition-colors duration-500 ease-in-out z-1000 ${
         !isScrolled && isHome
           ? "bg-transparent text-white"
           : "bg-blue-200 shadow-lg opacity-95 text-black"
@@ -53,7 +53,7 @@ function Header() {
                 className="relative cursor-pointer px-4 py-2"
               >
                 <div
-                  className={`text-center text-lg flex items-center justify-center transition-all duration-300 ${textColor}
+                  className={`text-center text-lg  flex items-center justify-center transition-all duration-300 uppercase ${textColor}
                   ${
                     isActive
                       ? "font-semibold after:absolute after:bottom-0 after:left-1/2 after:h-[3px] after:bg-current after:rounded-full after:transition-all after:duration-300 after:ease-in-out after:-translate-x-1/2 after:w-full"
@@ -75,6 +75,7 @@ function Header() {
               ? "bg-white text-black"
               : "bg-transparent border border-white text-white"
           }`}
+          onClick={() => navigate("/login")}
         >
           Đăng nhập
         </button>
@@ -85,6 +86,7 @@ function Header() {
               ? "bg-blue-500 text-white"
               : "bg-white text-black"
           }`}
+          onClick={() => navigate("/register")}
         >
           Bắt đầu
         </button>
