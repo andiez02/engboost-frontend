@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@theme {
+  --height-header: 70px;
+  --height-footer: 60px;
+
+  --animate-stars: stars 10s linear infinite;
+  @keyframes stars {
+    0% {
+      background-position: -100% 100%;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+}
+
 :root {
   font-family: "Roboto", sans-serif;
 }
