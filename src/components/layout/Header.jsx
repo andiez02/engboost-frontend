@@ -70,9 +70,9 @@ function Header() {
 
       <div className="flex gap-4 items-center justify-evenly h-full">
         <button
-          className={`h-[60%] px-4 rounded-xl cursor-pointer shadow-md transition-all hover:translate-y-1 hover:shadow-sm ${
+          className={`h-[60%] border px-4 rounded-xl cursor-pointer shadow-md transition-all hover:translate-y-1 hover:shadow-sm ${
             isScrolled || !isHome
-              ? "bg-white text-black"
+              ? "bg-white text-black border-transparent"
               : "bg-transparent border border-white text-white"
           }`}
           onClick={() => navigate("/login")}

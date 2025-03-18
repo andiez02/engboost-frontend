@@ -5,7 +5,6 @@
   --height-footer: 100px;
 
   --animate-stars: stars 10s linear infinite;
-  --animate-gradient: gradientMove 10s linear infinite;
 
   @keyframes stars {
     0% {
@@ -19,20 +18,4 @@
 
 :root {
   font-family: "Roboto", sans-serif;
-}
-
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animate-gradient {
-  animation: var(--animate-gradient);
 }
