@@ -17,8 +17,10 @@ import {
   PASSWORD_RULE_MESSAGE,
 } from "../../utils/validator";
 import FieldErrorAlert from "../../components/form/FieldErrorAlert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../components/layout/Footer";
+import { registerUserAPI } from "../../apis";
+import { toast } from "react-toastify";
 
 function RegisterForm() {
   const {
@@ -28,12 +30,17 @@ function RegisterForm() {
     formState: { errors },
   } = useForm();
 
-  // let [searchParams] = useSearchParams();
-  // const registeredEmail = searchParams.get("registeredEmail");
-  // const verifiedEmail = searchParams.get("verifiedEmail");
+  const navigate = useNavigate();
 
   const submitRegister = (data) => {
-    console.log("🚀 ~ submitLogIn ~ data:", data);
+    const { email, password } = data;
+    toast
+      .promise(registerUserAPI({ email, password }), {
+        pending: "Registration is on progress",
+      })
+      .then((data) => {
+        navigate(`/login?registeredEmail=${data.user.email}`);
+      });
   };
 
   return (
@@ -59,7 +66,7 @@ function RegisterForm() {
                       gap: 1,
                     }}
                   >
-                    <h2 class="text-4xl font-bold text-gray-800 tracking-wide relative before:absolute before:-bottom-2 before:left-1/2 before:w-0 before:h-1 before:bg-blue-500 before:transition-all before:duration-300 hover:before:w-full hover:before:left-0">
+                    <h2 className="text-4xl font-bold text-gray-800 tracking-wide relative before:absolute before:-bottom-2 before:left-1/2 before:w-0 before:h-1 before:bg-blue-500 before:transition-all before:duration-300 hover:before:w-full hover:before:left-0">
                       Đăng ký
                     </h2>
                   </Box>
@@ -122,6 +129,7 @@ function RegisterForm() {
 
                   <CardActions sx={{ padding: "0 1em 1em 1em" }}>
                     <Button
+                      className="interceptor-loading"
                       type="submit"
                       variant="contained"
                       color="primary"

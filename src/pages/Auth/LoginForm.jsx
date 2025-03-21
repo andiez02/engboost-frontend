@@ -3,11 +3,8 @@ import Header from "../../components/layout/Header";
 import { useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
-import LockIcon from "@mui/icons-material/Lock";
 import Typography from "@mui/material/Typography";
 import { Card as MuiCard } from "@mui/material";
-import engBoostLogo from "../../assets/home/engboost-logo.png";
 import CardActions from "@mui/material/CardActions";
 import TextField from "@mui/material/TextField";
 import Zoom from "@mui/material/Zoom";
@@ -20,22 +17,36 @@ import {
   PASSWORD_RULE_MESSAGE,
 } from "../../utils/validator";
 import FieldErrorAlert from "../../components/form/FieldErrorAlert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Footer from "../../components/layout/Footer";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { loginUserAPI } from "../../redux/user/userSlice";
 
-function RegisterForm() {
+function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  // let [searchParams] = useSearchParams();
-  // const registeredEmail = searchParams.get("registeredEmail");
-  // const verifiedEmail = searchParams.get("verifiedEmail");
+  let [searchParams] = useSearchParams();
+  const registeredEmail = searchParams.get("registeredEmail");
+  const verifiedEmail = searchParams.get("verifiedEmail");
 
   const submitLogIn = (data) => {
-    console.log("🚀 ~ submitLogIn ~ data:", data);
+    const { email, password } = data;
+    toast
+      .promise(dispatch(loginUserAPI({ email, password })), {
+        pending: "Logging in...",
+      })
+      .then((res) => {
+        if (res.message) toast.success(res.message);
+        if (!res.error) navigate("/");
+      });
   };
 
   return (
@@ -61,7 +72,7 @@ function RegisterForm() {
                       gap: 1,
                     }}
                   >
-                    <h2 class="text-4xl font-bold text-gray-800 tracking-wide relative before:absolute before:-bottom-2 before:left-1/2 before:w-0 before:h-1 before:bg-blue-500 before:transition-all before:duration-300 hover:before:w-full hover:before:left-0">
+                    <h2 className="text-4xl font-bold text-gray-800 tracking-wide relative before:absolute before:-bottom-2 before:left-1/2 before:w-0 before:h-1 before:bg-blue-500 before:transition-all before:duration-300 hover:before:w-full hover:before:left-0">
                       Đăng nhập
                     </h2>
                   </Box>
@@ -74,46 +85,46 @@ function RegisterForm() {
                       padding: "0 1em",
                     }}
                   >
-                    {/* {verifiedEmail && ( */}
-                    <Alert
-                      severity="success"
-                      sx={{ ".MuiAlert-message": { overflow: "hidden" } }}
-                    >
-                      Your email&nbsp;
-                      <Typography
-                        variant="span"
-                        sx={{
-                          fontWeight: "bold",
-                          "&:hover": { color: "#fdba26" },
-                        }}
+                    {verifiedEmail && (
+                      <Alert
+                        severity="success"
+                        sx={{ ".MuiAlert-message": { overflow: "hidden" } }}
                       >
-                        {/* {verifiedEmail} */}
-                      </Typography>
-                      Email của bạn đã được xác minh. Bây giờ bạn có thể đăng
-                      nhập để tận hưởng dịch vụ của chúng tôi! Chúc bạn một ngày
-                      tốt lành!
-                    </Alert>
-                    {/* )} */}
-                    {/* {registeredEmail && ( */}
-                    <Alert
-                      severity="info"
-                      sx={{ ".MuiAlert-message": { overflow: "hidden" } }}
-                    >
-                      Một email đã được gửi đến
-                      <Typography
-                        variant="span"
-                        sx={{
-                          fontWeight: "bold",
-                          "&:hover": { color: "#fdba26" },
-                        }}
+                        Your email&nbsp;
+                        <Typography
+                          variant="span"
+                          sx={{
+                            fontWeight: "bold",
+                            "&:hover": { color: "#fdba26" },
+                          }}
+                        >
+                          {verifiedEmail} {""}
+                        </Typography>
+                        Email của bạn đã được xác minh. Bây giờ bạn có thể đăng
+                        nhập để tận hưởng dịch vụ của chúng tôi! Chúc bạn một
+                        ngày tốt lành!
+                      </Alert>
+                    )}
+                    {registeredEmail && (
+                      <Alert
+                        severity="info"
+                        sx={{ ".MuiAlert-message": { overflow: "hidden" } }}
                       >
-                        {/* {registeredEmail} */}
-                      </Typography>
-                      <br />
-                      Vui lòng kiểm tra và xác minh tài khoản của bạn trước khi
-                      đăng nhập!
-                    </Alert>
-                    {/* )} */}
+                        Một email đã được gửi đến {""}
+                        <Typography
+                          variant="span"
+                          sx={{
+                            fontWeight: "bold",
+                            "&:hover": { color: "#fdba26" },
+                          }}
+                        >
+                          {registeredEmail}
+                        </Typography>
+                        <br />
+                        Vui lòng kiểm tra và xác minh tài khoản của bạn trước
+                        khi đăng nhập!
+                      </Alert>
+                    )}
                   </Box>
                   <Box sx={{ padding: "0 1em 1em 1em" }}>
                     <Box sx={{ marginTop: "1em" }}>
@@ -155,6 +166,7 @@ function RegisterForm() {
                   </Box>
                   <CardActions sx={{ padding: "0 1em 1em 1em" }}>
                     <Button
+                      className="interceptor-loading"
                       type="submit"
                       variant="contained"
                       color="primary"
@@ -188,4 +200,4 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+export default Login;

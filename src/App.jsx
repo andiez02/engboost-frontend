@@ -7,6 +7,7 @@ import Blog from "./pages/Blog";
 import AboutUs from "./pages/AboutUs";
 import NotFound from "./pages/404/NotFound.jsx";
 import Auth from "./pages/Auth/Auth.jsx";
+import AccountVerification from "./pages/Auth/AccountVerification.jsx";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       {/* Authentication */}
       <Route path="/login" element={<Auth />} />
       <Route path="/register" element={<Auth />} />
+      <Route path="/account/verification" element={<AccountVerification />} />
 
       {/* Home Page */}
       <Route path={routes.HOME} element={<Home />} />
