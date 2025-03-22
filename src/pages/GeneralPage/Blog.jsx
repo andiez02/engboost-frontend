@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../components/layout/Header";
+import Header from "../../components/Layout/Header";
 
-function AboutUs() {
+function Blog() {
   return (
     <div className="bg-blue-500 min-h-screen">
       <Header />
@@ -10,4 +10,4 @@ function AboutUs() {
   );
 }
 
-export default AboutUs;
+export default Blog;

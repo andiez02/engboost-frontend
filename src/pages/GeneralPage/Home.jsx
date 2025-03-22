@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
-import landingImage from "../assets/home/landing-img.png";
-import homeImage1 from "../assets/home/home-img-1.png";
-import homeImage1Sub1 from "../assets/home/home-img-1.1.png";
-import homeImage1Sub2 from "../assets/home/home-img-1.2.png";
-import homeImage2 from "../assets/home/home-img-2.png";
-import homeImage2Sub1 from "../assets/home/home-img-2.1.png";
-import homeImage2Sub2 from "../assets/home/home-img-2.2.png";
-import homeImage3 from "../assets/home/home-img-3.png";
+import Header from "../../components/Layout/Header";
+import Footer from "../../components/Layout/Footer";
+import landingImage from "../../assets/home/landing-img.png";
+import homeImage1 from "../../assets/home/home-img-1.png";
+import homeImage1Sub1 from "../../assets/home/home-img-1.1.png";
+import homeImage1Sub2 from "../../assets/home/home-img-1.2.png";
+import homeImage2 from "../../assets/home/home-img-2.png";
+import homeImage2Sub1 from "../../assets/home/home-img-2.1.png";
+import homeImage2Sub2 from "../../assets/home/home-img-2.2.png";
+import homeImage3 from "../../assets/home/home-img-3.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import HomeToFlashcardButton from "../../components/Button/HomeToFlashcardButton";
 
 function Home() {
   useEffect(() => {
@@ -19,6 +20,7 @@ function Home() {
   return (
     <>
       <Header />
+      <HomeToFlashcardButton />
       <div className="h-screen overscroll-none">
         <img
           src={landingImage}

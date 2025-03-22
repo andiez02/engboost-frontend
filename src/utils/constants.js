@@ -11,4 +11,11 @@ export const routes = {
   BLOG: "/blog",
   //About Us
   ABOUT_US: "/about_us",
+
+  //Dashboard
+  DASHBOARD: "/dashboard",
+  //Flashcard
+  FLASHCARD: "/flashcard",
+  //Dashboard
+  MY_COURSE: "/my_course",
 };

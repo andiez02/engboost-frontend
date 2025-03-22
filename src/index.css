@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --height-header: 70px;
+  --height-header: 60px;
   --height-footer: 100px;
 
   --animate-stars: stars 10s linear infinite;

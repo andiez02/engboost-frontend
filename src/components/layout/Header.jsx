@@ -23,7 +23,6 @@ function Header() {
     { path: routes.HOME, name: "Trang chủ" },
     { path: routes.COURSE, name: "Khoá học" },
     { path: routes.BLOG, name: "Blog" },
-    { path: routes.ABOUT_US, name: "Về chúng tôi" },
   ];
 
   return (
@@ -35,10 +34,15 @@ function Header() {
       }`}
     >
       <div>
-        <img src={engboostLogo} className="h-full" alt="Logo" />
+        <img
+          src={engboostLogo}
+          className="h-full cursor-pointer"
+          alt="Logo"
+          onClick={() => navigate("/")}
+        />
       </div>
-      <div className="w-[40%]">
-        <ul className="flex items-center justify-evenly h-full">
+      <div>
+        <ul className="flex items-center gap-4 h-full">
           {dashboardItem.map((item) => {
             const isActive = location.pathname === item.path;
             const textColor = isHome

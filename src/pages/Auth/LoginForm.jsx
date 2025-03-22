@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../../components/layout/Header";
+import Header from "../../components/Layout/Header";
 import { useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -16,9 +16,9 @@ import {
   PASSWORD_RULE,
   PASSWORD_RULE_MESSAGE,
 } from "../../utils/validator";
-import FieldErrorAlert from "../../components/form/FieldErrorAlert";
+import FieldErrorAlert from "../../components/Form/FieldErrorAlert";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import Footer from "../../components/layout/Footer";
+import Footer from "../../components/Layout/Footer";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { loginUserAPI } from "../../redux/user/userSlice";
