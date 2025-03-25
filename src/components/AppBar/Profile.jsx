@@ -14,6 +14,8 @@ import Logout from "@mui/icons-material/Logout";
 // import { logoutUserAPI, selectCurrentUser } from "~/redux/user/userSlice";
 import { useConfirm } from "material-ui-confirm";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUserAPI, selectCurrentUser } from "../../redux/user/userSlice";
 
 function Profiles() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,8 +27,8 @@ function Profiles() {
     setAnchorEl(null);
   };
 
-  //   const dispatch = useDispatch();
-  //   const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
 
   const confirmLogout = useConfirm();
   const handleLogout = () => {
@@ -36,7 +38,7 @@ function Profiles() {
       cancellationText: "Cancel",
     })
       .then(() => {
-        // dispatch(logoutUserAPI());
+        dispatch(logoutUserAPI());
       })
       .catch(() => {});
   };
@@ -56,7 +58,7 @@ function Profiles() {
             <Avatar
               sx={{ width: 40, height: 40 }}
               alt="User"
-              // src={currentUser?.avatar}
+              src={currentUser?.user?.avatar}
             />
           </IconButton>
         </Tooltip>
@@ -70,7 +72,14 @@ function Profiles() {
             "aria-labelledby": "basic-button-profiles",
           }}
         >
-          <Link to="/settings/account" style={{ color: "inherit" }}>
+          <Link
+            to={
+              currentUser?.user?.role === "ADMIN"
+                ? "/admin/settings/account"
+                : "/settings/account"
+            }
+            style={{ color: "inherit" }}
+          >
             <MenuItem
               sx={{
                 "&:hover": { color: "success.light" },
@@ -78,7 +87,7 @@ function Profiles() {
             >
               <Avatar
                 sx={{ width: 36, height: 36, mr: 2 }}
-                //   src={currentUser?.avatar}
+                src={currentUser?.user?.avatar}
               />
               Profile
             </MenuItem>

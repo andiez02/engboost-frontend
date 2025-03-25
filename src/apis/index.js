@@ -27,3 +27,18 @@ export const verifyUserAPI = async (data) => {
 
   return response.data;
 };
+
+export const refreshTokenAPI = async () => {
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/users/verify`
+  );
+  return response.data;
+};
+
+export const snaplangDetectAPI = async (data) => {
+  const response = await authorizedAxiosInstance.post(
+    `${API_ROOT}/snaplang/detect`,
+    data
+  );
+  return response.data;
+};

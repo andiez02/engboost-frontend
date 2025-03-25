@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import engboostLogo from "../../assets/home/engboost-logo.png";
 import { routes } from "../../utils/constants";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../redux/user/userSlice";
+import Profiles from "../AppBar/Profile";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -9,6 +12,7 @@ function Header() {
   const navigate = useNavigate();
 
   const isHome = location.pathname === routes.HOME;
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -72,29 +76,35 @@ function Header() {
         </ul>
       </div>
 
-      <div className="flex gap-4 items-center justify-evenly h-full">
-        <button
-          className={`h-[60%] border px-4 rounded-xl cursor-pointer shadow-md transition-all hover:translate-y-1 hover:shadow-sm ${
-            isScrolled || !isHome
-              ? "bg-white text-black border-transparent"
-              : "bg-transparent border border-white text-white"
-          }`}
-          onClick={() => navigate("/login")}
-        >
-          Đăng nhập
-        </button>
+      {currentUser ? (
+        <div className="flex items-center h-full">
+          <Profiles />
+        </div>
+      ) : (
+        <div className="flex gap-4 items-center justify-evenly h-full">
+          <button
+            className={`h-[60%] border px-4 rounded-xl cursor-pointer shadow-md transition-all hover:translate-y-1 hover:shadow-sm ${
+              isScrolled || !isHome
+                ? "bg-white text-black border-transparent"
+                : "bg-transparent border border-white text-white"
+            }`}
+            onClick={() => navigate("/login")}
+          >
+            Đăng nhập
+          </button>
 
-        <button
-          className={`h-[60%] px-4 rounded-xl cursor-pointer shadow-md transition-all hover:translate-y-1 hover:shadow-sm ${
-            isScrolled || !isHome
-              ? "bg-blue-500 text-white"
-              : "bg-white text-black"
-          }`}
-          onClick={() => navigate("/register")}
-        >
-          Bắt đầu
-        </button>
-      </div>
+          <button
+            className={`h-[60%] px-4 rounded-xl cursor-pointer shadow-md transition-all hover:translate-y-1 hover:shadow-sm ${
+              isScrolled || !isHome
+                ? "bg-blue-500 text-white"
+                : "bg-white text-black"
+            }`}
+            onClick={() => navigate("/register")}
+          >
+            Bắt đầu
+          </button>
+        </div>
+      )}
     </header>
   );
 }
