@@ -13,7 +13,7 @@ export default function Sidebar({ isOpen }) {
 
   return (
     <div
-      className={`fixed top-18 left-0 h-[calc(100vh-5rem)] bg-white shadow-lg transition-all duration-300 ${
+      className={`fixed top-15 left-0 h-[calc(100vh-3rem)] bg-white shadow-lg transition-all duration-300 ${
         isOpen ? "w-64" : "w-16"
       } flex flex-col p-3 overflow-y-auto`}
     >

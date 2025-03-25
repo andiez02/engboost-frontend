@@ -7,11 +7,16 @@ function MyCourse() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
-    <div className="flex">
+    <div
+      className="flex"
+      style={{
+        backgroundColor: "#FDFAF6",
+      }}
+    >
       <Sidebar isOpen={isSidebarOpen} />
 
       <div
-        className={`flex-1 fle transition-all duration-300  ${
+        className={`flex-1  transition-all duration-300  ${
           isSidebarOpen ? "ml-64" : "ml-16"
         } p-5`}
       >
@@ -20,15 +25,7 @@ function MyCourse() {
           setIsSidebarOpen={setIsSidebarOpen}
         />
 
-        <div
-          className="text-2xl min-h-screen font-semibold mt-[60px]"
-          style={{
-            backgroundImage: `url(${dotBackground})`,
-            backgroundSize: "cover",
-            backgroundAttachment: "fixed",
-            backgroundPosition: "center",
-          }}
-        >
+        <div className="text-2xl min-h-screen font-semibold mt-[60px]">
           MyCourse
         </div>
       </div>

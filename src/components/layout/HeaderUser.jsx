@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function HeaderUser({ isSidebarOpen, setIsSidebarOpen }) {
   const navigate = useNavigate();
   return (
-    <header className="h-[var(--height-header)] fixed top-0 left-0 w-screen flex justify-between items-center transition-colors duration-500 ease-in-out z-1000 bg-blue-200 shadow-lg opacity-95 text-black px-5">
+    <header className="h-[var(--height-header)] fixed top-0 left-0 w-screen flex justify-between items-center transition-colors duration-500 ease-in-out z-1000 bg-blue-200 shadow-lg  text-black px-5">
       <div className="flex items-center h-full">
         {/* Sidebar Toggle Button */}
         <button
