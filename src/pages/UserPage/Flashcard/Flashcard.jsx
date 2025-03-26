@@ -2,6 +2,8 @@ import { useState } from "react";
 import HeaderUser from "../../../components/layout/HeaderUser";
 import Sidebar from "../../../components/Layout/SideBar";
 import FlashcardTab from "./FlashcardTab/FlashcardTab";
+import card from "../../../assets/lotties/card.json";
+import Lottie from "lottie-react";
 
 function Flashcard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -26,7 +28,10 @@ function Flashcard() {
         />
 
         <div className="text-2xl min-h-screen font-semibold mt-[60px]">
-          <div className="mb-6">Your Flashcard</div>
+          <div className="mb-6 flex items-center gap-3">
+            <Lottie animationData={card} loop className="size-12" />
+            <span>Your Flashcard</span>
+          </div>
           <FlashcardTab />
         </div>
       </div>

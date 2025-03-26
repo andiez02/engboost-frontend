@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import FlashcardSets from "./FlashcardSets";
-import Folders from "./Folders";
+import Folders from "./Folders/Folders";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
@@ -11,20 +10,21 @@ import TabPanel from "@mui/lab/TabPanel";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import FolderIcon from "@mui/icons-material/Folder";
 import Snaplang from "./Snaplang/Snaplang";
+import Discover from "./Discover/Discover";
+import ExploreIcon from "@mui/icons-material/Explore";
 
 const TABS = {
   SNAPLANG: "snaplang",
-  FLASHCARD_SETS: "flashcard_sets",
   FOLDERS: "folders",
+  DISCOVER: "discover",
 };
 
 function FlashcardTab() {
   const location = useLocation();
 
   const getDefaultTab = () => {
-    if (location.pathname.includes(TABS.FLASHCARD_SETS))
-      return TABS.FLASHCARD_SETS;
     if (location.pathname.includes(TABS.FOLDERS)) return TABS.FOLDERS;
+    if (location.pathname.includes(TABS.DISCOVER)) return TABS.DISCOVER;
     return TABS.SNAPLANG;
   };
   const [activeTab, setActiveTab] = useState(getDefaultTab());
@@ -59,14 +59,7 @@ function FlashcardTab() {
                 component={Link}
                 to="/flashcard/snaplang"
               />
-              <Tab
-                label="Flashcard Sets"
-                value={TABS.FLASHCARD_SETS}
-                icon={<LibraryBooksIcon />}
-                iconPosition="start"
-                component={Link}
-                to="/flashcard/flashcard_sets"
-              />
+
               <Tab
                 label="Folders"
                 value={TABS.FOLDERS}
@@ -75,16 +68,25 @@ function FlashcardTab() {
                 component={Link}
                 to="/flashcard/folders"
               />
+              <Tab
+                label="Discover"
+                value={TABS.DISCOVER}
+                icon={<ExploreIcon />}
+                iconPosition="start"
+                component={Link}
+                to="/flashcard/discover"
+              />
             </TabList>
           </Box>
           <TabPanel value={TABS.SNAPLANG}>
             <Snaplang />
           </TabPanel>
-          <TabPanel value={TABS.FLASHCARD_SETS}>
-            <FlashcardSets />
-          </TabPanel>
+
           <TabPanel value={TABS.FOLDERS}>
             <Folders />
+          </TabPanel>
+          <TabPanel value={TABS.DISCOVER}>
+            <Discover />
           </TabPanel>
         </TabContext>
       </Container>

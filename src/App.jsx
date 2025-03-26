@@ -65,7 +65,7 @@ function App() {
         <Route path={routes.MY_COURSE} element={<MyCourse />} />
         <Route path="/settings/account" element={<Settings />} />
         <Route path="/settings/security" element={<Settings />} />
-        <Route path="/flashcard/flashcard_sets" element={<Flashcard />} />
+        <Route path="/flashcard/discover" element={<Flashcard />} />
         <Route path="/flashcard/folders" element={<Flashcard />} />
         <Route path="/flashcard/snaplang" element={<Flashcard />} />
       </Route>
