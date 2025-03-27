@@ -1,13 +1,21 @@
 import { LayoutDashboard, BookOpen, GraduationCap, Home } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const dashboardItems = [
+const adminItems = [
+  { name: "Người dùng", icon: LayoutDashboard, tab: "users" },
+  { name: "Từ vựng", icon: BookOpen, tab: "vocab" },
+  { name: "Khóa học", icon: GraduationCap, tab: "courses" },
+];
+
+
+const userItems = [
   { name: "Overview", icon: LayoutDashboard, path: "/dashboard" },
   { name: "Flashcard", icon: BookOpen, path: "/flashcard" },
   { name: "My Course", icon: GraduationCap, path: "/my_course" },
 ];
 
-export default function Sidebar({ isOpen }) {
+
+export default function Sidebar({ isOpen, isAdmin = false, setActiveTab }) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,8 +26,8 @@ export default function Sidebar({ isOpen }) {
       } flex flex-col p-3 overflow-y-auto`}
     >
       <ul className="space-y-2 flex-1">
-        {dashboardItems.map((item, index) => {
-          const isActive = location.pathname.startsWith(item.path);
+      {(isAdmin ? adminItems : userItems).map((item, index) => {
+          const isActive = isAdmin ? false : location.pathname.startsWith(item.path);
           const Icon = item.icon;
           return (
             <li key={index}>
@@ -27,7 +35,8 @@ export default function Sidebar({ isOpen }) {
                 className={`flex items-center gap-4 px-5 py-4 hover:bg-blue-200 rounded-xl cursor-pointer transition-all duration-300 ${
                   isOpen ? "justify-start" : "justify-center"
                 } ${isActive ? "bg-blue-200 " : ""}`}
-                onClick={() => navigate(item.path)}
+                onClick={() => setActiveTab(item.tab)}
+
               >
                 <Icon className="w-6 h-6 flex-shrink-0 text-gray-600" />
                 <span
