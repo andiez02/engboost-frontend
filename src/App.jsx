@@ -16,6 +16,7 @@ import { selectCurrentUser } from "./redux/user/userSlice.js";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 import AdminSettings from "./pages/AdminSettings/AdminSettings.jsx";
 
+
 const ProtectedRoute = ({ user, allowedRoles }) => {
   if (!user) return <Navigate to="/login" replace={true} />;
   if (!allowedRoles.includes(user.role)) {
@@ -72,14 +73,15 @@ function App() {
 
       {/* Protected Routes for ADMIN */}
       <Route
-        element={
-          <ProtectedRoute user={currentUser?.user} allowedRoles={["ADMIN"]} />
-        }
-      >
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/settings/account" element={<AdminSettings />} />
-        <Route path="/admin/settings/security" element={<AdminSettings />} />
-      </Route>
+  element={
+    <ProtectedRoute user={currentUser?.user} allowedRoles={["ADMIN"]} />
+  }
+>
+  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+  <Route path="/admin/settings/account" element={<AdminSettings />} />
+  <Route path="/admin/settings/security" element={<AdminSettings />} />
+</Route>
+
 
       {/* Not Found Page */}
       <Route path="*" element={<NotFound />} />
