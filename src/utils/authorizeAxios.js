@@ -53,7 +53,7 @@ authorizedAxiosInstance.interceptors.response.use(
     //Chặn spam click
     interceptorLoadingElements(false);
 
-    // //! Quan trọng: Xử lý Refresh Token tự động
+    //! Quan trọng: Xử lý Refresh Token tự động
     //TH1: Nếu nhận mã 401 từ BE, call api logout
     if (error.response?.status === 401) {
       axiosReduxStore.dispatch(logoutUserAPI(false));
@@ -96,7 +96,7 @@ authorizedAxiosInstance.interceptors.response.use(
 
     //todo --- Xử lí tập trung phần hiển thị thông báo lỗi trả về từ API
     console.log(error);
-    let errorMessage = error?.response;
+    let errorMessage = error?.message;
     if (error.response?.data?.message) {
       errorMessage = error.response?.data?.message;
     }

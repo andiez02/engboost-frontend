@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Folders from "./Folders/Folders";
 import Container from "@mui/material/Container";
@@ -7,7 +7,7 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import FolderIcon from "@mui/icons-material/Folder";
 import Snaplang from "./Snaplang/Snaplang";
 import Discover from "./Discover/Discover";
@@ -22,11 +22,16 @@ const TABS = {
 function FlashcardTab() {
   const location = useLocation();
 
-  const getDefaultTab = () => {
+  const getDefaultTab = useCallback(() => {
     if (location.pathname.includes(TABS.FOLDERS)) return TABS.FOLDERS;
     if (location.pathname.includes(TABS.DISCOVER)) return TABS.DISCOVER;
     return TABS.SNAPLANG;
-  };
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setActiveTab(getDefaultTab());
+  }, [location.pathname, getDefaultTab]);
+
   const [activeTab, setActiveTab] = useState(getDefaultTab());
 
   const handleChangeTab = (event, selectedTab) => {
@@ -54,7 +59,7 @@ function FlashcardTab() {
               <Tab
                 label="Snaplang"
                 value={TABS.SNAPLANG}
-                icon={<LibraryBooksIcon />}
+                icon={<CameraAltIcon />}
                 iconPosition="start"
                 component={Link}
                 to="/flashcard/snaplang"

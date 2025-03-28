@@ -12,10 +12,10 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 // import { useDispatch, useSelector } from "react-redux";
 // import { logoutUserAPI, selectCurrentUser } from "~/redux/user/userSlice";
-import { useConfirm } from "material-ui-confirm";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUserAPI, selectCurrentUser } from "../../redux/user/userSlice";
+import { useConfirm } from "material-ui-confirm";
 
 function Profiles() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,14 +33,16 @@ function Profiles() {
   const confirmLogout = useConfirm();
   const handleLogout = () => {
     confirmLogout({
-      title: "Log out of your account ?",
-      confirmationText: "Confirm",
-      cancellationText: "Cancel",
+      title: "Đăng xuất khỏi tài khoản của bạn?",
+      confirmationText: "Đồng ý",
+      cancellationText: "Huỷ",
     })
       .then(() => {
         dispatch(logoutUserAPI());
       })
-      .catch(() => {});
+      .catch((error) => {
+        console.log("Logout cancelled or error occurred:", error);
+      });
   };
 
   return (

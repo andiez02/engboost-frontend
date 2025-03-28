@@ -1,7 +1,7 @@
 import React from "react";
 import Rating from "@mui/material/Rating";
 
-function CourseCard({ course }) {
+function CourseCardIntroduce({ course }) {
   return (
     <div className="h-70 w-full rounded-2xl border border-gray-300 shadow-lg overflow-hidden bg-white cursor-pointer transition-transform transform hover:scale-105 hover:shadow-xl">
       <img
@@ -35,4 +35,4 @@ function CourseCard({ course }) {
   );
 }
 
-export default CourseCard;
+export default CourseCardIntroduce;

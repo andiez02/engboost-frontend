@@ -2,7 +2,7 @@ import React from "react";
 import courseImage from "../../assets/course-img.webp";
 import Header from "../../components/Layout/Header";
 import Footer from "../../components/Layout/Footer";
-import CourseCard from "../../components/course/CourseCard";
+import CourseCardIntroduce from "../../components/Course/CourseCardIntroduce";
 
 const courses = {
   IELTS: [
@@ -63,7 +63,7 @@ function Course() {
             <h2 className="text-2xl font-bold mb-3">{category}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {courseList.map((course, index) => (
-                <CourseCard key={index} course={course} />
+                <CourseCardIntroduce key={index} course={course} />
               ))}
             </div>
           </div>

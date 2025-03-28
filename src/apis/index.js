@@ -30,14 +30,83 @@ export const verifyUserAPI = async (data) => {
 
 export const refreshTokenAPI = async () => {
   const response = await authorizedAxiosInstance.get(
-    `${API_ROOT}/users/verify`
+    `${API_ROOT}/users/refresh_token`
   );
   return response.data;
 };
 
+//Snaplang
 export const snaplangDetectAPI = async (data) => {
   const response = await authorizedAxiosInstance.post(
     `${API_ROOT}/snaplang/detect`,
+    data
+  );
+  return response.data;
+};
+
+//Folder
+export const createFolderAPI = async (data) => {
+  const response = await authorizedAxiosInstance.post(
+    `${API_ROOT}/folders`,
+    data
+  );
+  toast.success("Folder created successfully!", { theme: "colored" });
+  return response.data;
+};
+
+export const getFoldersAPI = async () => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/folders`);
+  return response.data;
+};
+
+export const getFolderByIdAPI = async (folderId) => {
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/folders/${folderId}`
+  );
+  return response.data;
+};
+
+export const updateFolderAPI = async (folderId, data) => {
+  const response = await authorizedAxiosInstance.put(
+    `${API_ROOT}/folders/${folderId}`,
+    data
+  );
+  return response.data;
+};
+
+export const deleteFolderAPI = async (folderId) => {
+  const response = await authorizedAxiosInstance.delete(
+    `${API_ROOT}/folders/${folderId}`
+  );
+  return response.data;
+};
+
+// Flashcard APIs
+export const getFlashcardsByFolderAPI = async (folderId) => {
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/folders/${folderId}/flashcards`
+  );
+  return response.data;
+};
+
+export const getFlashcardByIdAPI = async (flashcardId) => {
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/flashcards/${flashcardId}`
+  );
+  return response.data;
+};
+
+export const deleteFlashcardAPI = async (flashcardId) => {
+  const response = await authorizedAxiosInstance.delete(
+    `${API_ROOT}/flashcards/${flashcardId}`
+  );
+  toast.success("Flashcard deleted successfully!", { theme: "colored" });
+  return response.data;
+};
+
+export const saveFlashcardsToFolderAPI = async (data) => {
+  const response = await authorizedAxiosInstance.post(
+    `${API_ROOT}/flashcards/save-to-folder`,
     data
   );
   return response.data;

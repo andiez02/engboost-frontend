@@ -63,11 +63,11 @@ function App() {
         <Route path={routes.DASHBOARD} element={<Dashboard />} />
         <Route path={routes.FLASHCARD} element={<Flashcard />} />
         <Route path={routes.MY_COURSE} element={<MyCourse />} />
-        <Route path="/settings/account" element={<Settings />} />
-        <Route path="/settings/security" element={<Settings />} />
-        <Route path="/flashcard/discover" element={<Flashcard />} />
-        <Route path="/flashcard/folders" element={<Flashcard />} />
-        <Route path="/flashcard/snaplang" element={<Flashcard />} />
+        <Route path={routes.SETTINGS_ACCOUNT} element={<Settings />} />
+        <Route path={routes.SETTINGS_SECURITY} element={<Settings />} />
+        <Route path={routes.FLASHCARD_DISCOVER} element={<Flashcard />} />
+        <Route path={routes.FLASHCARD_FOLDERS} element={<Flashcard />} />
+        <Route path={routes.FLASHCARD_SNAPLANG} element={<Flashcard />} />
       </Route>
 
       {/* Protected Routes for ADMIN */}
@@ -76,9 +76,15 @@ function App() {
           <ProtectedRoute user={currentUser?.user} allowedRoles={["ADMIN"]} />
         }
       >
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/settings/account" element={<AdminSettings />} />
-        <Route path="/admin/settings/security" element={<AdminSettings />} />
+        <Route path={routes.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+        <Route
+          path={routes.ADMIN_SETTINGS_ACCOUNT}
+          element={<AdminSettings />}
+        />
+        <Route
+          path={routes.ADMIN_SETTING_SECURITY}
+          element={<AdminSettings />}
+        />
       </Route>
 
       {/* Not Found Page */}
