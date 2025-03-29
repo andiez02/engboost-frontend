@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import {
   Dialog,
   IconButton,
@@ -22,6 +24,7 @@ import {
   Delete,
   Add,
   FolderOutlined,
+  PlayArrow as PlayArrowIcon,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../../../../../utils/constants";
@@ -30,6 +33,8 @@ import {
   deleteFlashcardAPI,
 } from "../../../../../../apis";
 import Cards from "../../../../../../components/Card/Card";
+import StudyFlashcardsModal from "./StudyFlashcardsModal";
+import { updateFlashcardCount } from "../../../../../../redux/folder/folderSlice";
 
 const FolderDetailModal = ({
   open,
@@ -39,6 +44,7 @@ const FolderDetailModal = ({
   onDelete,
   onFlashcardChange,
 }) => {
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [folderTitle, setFolderTitle] = useState("");
@@ -47,15 +53,22 @@ const FolderDetailModal = ({
   const [flashcards, setFlashcards] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedFolder, setSelectedFolder] = useState(null);
+  const [isStudyModalOpen, setIsStudyModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (folder) {
+    if (open && folder && folder._id) {
       setFolderTitle(folder.title);
       setSelectedFolder(folder);
       setEditMode(false);
       fetchFlashcards();
+    } else {
+      // Reset states when modal is closed or folder is deleted
+      setFlashcards([]);
+      setSelectedFolder(null);
+      setFolderTitle("");
+      setEditMode(false);
     }
   }, [folder, open]);
 
@@ -64,12 +77,8 @@ const FolderDetailModal = ({
 
     setLoading(true);
     try {
-      // Sử dụng API mới không có phân trang
       const response = await getFlashcardsByFolderAPI(folder._id);
-
-      // API mới trả về trực tiếp mảng flashcards
       setFlashcards(Array.isArray(response) ? response : []);
-
       console.log("Fetched flashcards:", response);
     } catch (error) {
       console.error("Error fetching flashcards:", error);
@@ -96,8 +105,6 @@ const FolderDetailModal = ({
     if (folderTitle.trim() && onEdit && selectedFolder && selectedFolder._id) {
       try {
         setIsUpdating(true);
-
-        // Kiểm tra xem title có thay đổi không
         if (folderTitle.trim() !== selectedFolder.title) {
           console.log(
             "Updating folder:",
@@ -125,32 +132,42 @@ const FolderDetailModal = ({
     setDeleteDialogOpen(true);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (onDelete && selectedFolder) {
-      onDelete(selectedFolder._id);
+      try {
+        // Close modal first
+        setDeleteDialogOpen(false);
+        onClose();
+        // Then delete folder
+        await onDelete(selectedFolder._id);
+        // Show success message
+        toast.success("Xóa thư mục thành công!");
+      } catch (error) {
+        console.error("Error deleting folder:", error);
+        toast.error("Xóa thư mục thất bại. Vui lòng thử lại!");
+      }
     }
-    setDeleteDialogOpen(false);
-    onClose();
   };
 
   const handleRemoveCard = async (cardId) => {
     try {
       await deleteFlashcardAPI(cardId);
-
-      // Cập nhật danh sách flashcards sau khi xóa
       setFlashcards(flashcards.filter((card) => card._id !== cardId));
-
-      // Cập nhật số lượng flashcard trong folder
       const updatedCount = (selectedFolder.flashcard_count || 0) - 1;
       const updatedFolder = {
         ...selectedFolder,
         flashcard_count: updatedCount,
       };
-
-      // Cập nhật state folder trong modal
       setSelectedFolder(updatedFolder);
 
-      // Thông báo cho component cha về sự thay đổi
+      // Update Redux store
+      dispatch(
+        updateFlashcardCount({
+          folderId: selectedFolder._id,
+          count: updatedCount,
+        })
+      );
+
       if (onFlashcardChange) {
         onFlashcardChange(selectedFolder._id, updatedCount);
       }
@@ -158,8 +175,6 @@ const FolderDetailModal = ({
       console.error("Error deleting flashcard:", error);
     }
   };
-
-  if (!selectedFolder) return null;
 
   const handleCreateFlashcard = () => {
     onClose();
@@ -170,6 +185,12 @@ const FolderDetailModal = ({
       },
     });
   };
+
+  const handleStartStudy = () => {
+    setIsStudyModalOpen(true);
+  };
+
+  if (!selectedFolder) return null;
 
   return (
     <>
@@ -290,6 +311,23 @@ const FolderDetailModal = ({
               </>
             ) : (
               <>
+                {flashcards.length > 0 && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<PlayArrowIcon />}
+                    size="small"
+                    onClick={handleStartStudy}
+                    sx={{
+                      borderRadius: "8px",
+                      textTransform: "none",
+                      fontWeight: 500,
+                      boxShadow: "none",
+                    }}
+                  >
+                    Bắt đầu học
+                  </Button>
+                )}
                 <Button
                   variant="contained"
                   color="primary"
@@ -535,6 +573,12 @@ const FolderDetailModal = ({
           </Stack>
         </Box>
       </Dialog>
+
+      <StudyFlashcardsModal
+        open={isStudyModalOpen}
+        onClose={() => setIsStudyModalOpen(false)}
+        folder={selectedFolder}
+      />
     </>
   );
 };

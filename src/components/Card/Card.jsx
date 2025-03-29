@@ -84,6 +84,7 @@ const Cards = React.memo(({ card, onRemove }) => (
               color: "white",
             },
           }}
+          className="interceptor-loading"
           onClick={() => onRemove(card.id)}
         >
           <CloseIcon fontSize="small" />

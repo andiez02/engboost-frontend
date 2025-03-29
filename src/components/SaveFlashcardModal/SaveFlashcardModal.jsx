@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Dialog,
   DialogTitle,
@@ -30,7 +31,8 @@ import {
   CheckCircle as CheckCircleIcon,
   CreateNewFolder as CreateNewFolderIcon,
 } from "@mui/icons-material";
-import { getFoldersAPI, saveFlashcardsToFolderAPI } from "../../apis";
+import { saveFlashcardsToFolderAPI } from "../../apis";
+import { fetchFolders } from "../../redux/folder/folderSlice";
 
 const SaveFlashcardModal = ({
   open,
@@ -40,23 +42,25 @@ const SaveFlashcardModal = ({
   initialFolderId = null,
   initialFolderTitle = null,
 }) => {
-  const [folders, setFolders] = useState([]);
-  const [isLoadingFolders, setIsLoadingFolders] = useState(false);
+  const dispatch = useDispatch();
+  const { folders, isLoading: isLoadingFolders } = useSelector(
+    (state) => state.folders
+  );
   const [isSaving, setIsSaving] = useState(false);
   const [selectedFolder, setSelectedFolder] = useState(initialFolderId || "");
   const [createNewFolder, setCreateNewFolder] = useState(!initialFolderId);
   const [newFolderName, setNewFolderName] = useState(initialFolderTitle || "");
   const [error, setError] = useState("");
   const [showPreview, setShowPreview] = useState(false);
-  const [folderNameExists, setFolderNameExists] = useState(false); // Thêm state để kiểm tra trùng tên
+  const [folderNameExists, setFolderNameExists] = useState(false);
 
   // Fetch folders when modal opens
   useEffect(() => {
     if (open) {
-      fetchFolders();
+      dispatch(fetchFolders());
       setError(""); // Reset error khi mở modal
     }
-  }, [open]);
+  }, [open, dispatch]);
 
   // Kiểm tra tên folder đã tồn tại chưa
   useEffect(() => {
@@ -78,19 +82,6 @@ const SaveFlashcardModal = ({
       setFolderNameExists(false);
     }
   }, [newFolderName, folders, createNewFolder]);
-
-  const fetchFolders = async () => {
-    setIsLoadingFolders(true);
-    try {
-      const response = await getFoldersAPI();
-      setFolders(response.folders);
-    } catch (error) {
-      console.error("Error fetching folders:", error);
-      setError("Failed to load folders. Please try again.");
-    } finally {
-      setIsLoadingFolders(false);
-    }
-  };
 
   const handleSave = useCallback(async () => {
     if (
@@ -133,7 +124,7 @@ const SaveFlashcardModal = ({
             `Folder "${newFolderName.trim()}" already exists. Please choose a different name.`
           );
           setFolderNameExists(true);
-          fetchFolders();
+          dispatch(fetchFolders());
         } else {
           setError(
             errorMessage || "Failed to save flashcards. Please try again."
@@ -153,6 +144,7 @@ const SaveFlashcardModal = ({
     folders,
     onSave,
     onClose,
+    dispatch,
   ]);
 
   const handleFolderNameChange = (e) => {

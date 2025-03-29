@@ -61,7 +61,6 @@ authorizedAxiosInstance.interceptors.response.use(
     //TH2: Nếu nhận mã 410, call api refreshToken để làm mới refreshToken
     //Đầu tiên lấy được các request API đang bị lỗi thông qua error.config
     const originalRequests = error.config;
-    console.log("🚀 ~ originalRequests:", originalRequests);
     if (error.response?.status === 410 && !originalRequests._retry) {
       originalRequests._retry = true;
 
