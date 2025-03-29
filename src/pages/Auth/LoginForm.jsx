@@ -53,17 +53,18 @@ function Login() {
     <>
       <Header />
       <div className="min-h-screen relative flex justify-center items-center bg-gradient-to-r from-blue-300 via-blue-400 to-blue-300 animate-gradient">
-        <div className="w-[50%] min-h-[60%] absolute bottom-0 ">
+        <div className="w-full md:w-[50%] min-h-[60%] absolute bottom-0 pt-[80px] md:pt-[20px]">
           <form onSubmit={handleSubmit(submitLogIn)}>
             <Zoom in={true} style={{ transitionDelay: "200ms" }}>
               <MuiCard
                 sx={{
-                  minHeight: "83vh",
+                  minHeight: { xs: "calc(100vh - 80px)", md: "83vh" },
                   borderTopLeftRadius: "26px",
                   borderTopRightRadius: "26px",
+                  marginTop: { xs: "20px", md: "0" },
                 }}
               >
-                <Box sx={{ margin: "55px" }}>
+                <Box sx={{ margin: { xs: "20px", md: "55px" } }}>
                   <Box
                     sx={{
                       margin: "1em",
@@ -72,7 +73,7 @@ function Login() {
                       gap: 1,
                     }}
                   >
-                    <h2 className="text-4xl font-bold text-gray-800 tracking-wide relative before:absolute before:-bottom-2 before:left-1/2 before:w-0 before:h-1 before:bg-blue-500 before:transition-all before:duration-300 hover:before:w-full hover:before:left-0">
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 tracking-wide relative before:absolute before:-bottom-2 before:left-1/2 before:w-0 before:h-1 before:bg-blue-500 before:transition-all before:duration-300 hover:before:w-full hover:before:left-0">
                       Đăng nhập
                     </h2>
                   </Box>
@@ -88,7 +89,10 @@ function Login() {
                     {verifiedEmail && (
                       <Alert
                         severity="success"
-                        sx={{ ".MuiAlert-message": { overflow: "hidden" } }}
+                        sx={{
+                          ".MuiAlert-message": { overflow: "hidden" },
+                          fontSize: { xs: "0.875rem", md: "1rem" },
+                        }}
                       >
                         Your email&nbsp;
                         <Typography
@@ -108,7 +112,10 @@ function Login() {
                     {registeredEmail && (
                       <Alert
                         severity="info"
-                        sx={{ ".MuiAlert-message": { overflow: "hidden" } }}
+                        sx={{
+                          ".MuiAlert-message": { overflow: "hidden" },
+                          fontSize: { xs: "0.875rem", md: "1rem" },
+                        }}
                       >
                         Một email đã được gửi đến {""}
                         <Typography
@@ -129,7 +136,6 @@ function Login() {
                   <Box sx={{ padding: "0 1em 1em 1em" }}>
                     <Box sx={{ marginTop: "1em" }}>
                       <TextField
-                        // autoComplete="nope"
                         autoFocus
                         fullWidth
                         label="Nhập Email..."
@@ -172,17 +178,26 @@ function Login() {
                       color="primary"
                       size="large"
                       fullWidth
+                      sx={{
+                        height: { xs: "44px", md: "48px" },
+                        fontSize: { xs: "0.875rem", md: "1rem" },
+                      }}
                     >
                       Đăng nhập
                     </Button>
                   </CardActions>
                   <Box sx={{ padding: "0 1em 1em 1em", textAlign: "center" }}>
-                    <Typography>New to EngBoost?</Typography>
+                    <Typography
+                      sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}
+                    >
+                      New to EngBoost?
+                    </Typography>
                     <Link to="/register" style={{ textDecoration: "none" }}>
                       <Typography
                         sx={{
                           color: "primary.main",
                           "&:hover": { color: "#ffbb39" },
+                          fontSize: { xs: "0.875rem", md: "1rem" },
                         }}
                       >
                         Create account!

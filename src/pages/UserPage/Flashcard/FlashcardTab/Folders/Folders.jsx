@@ -11,11 +11,7 @@ import {
   Tooltip,
   CircularProgress,
 } from "@mui/material";
-import {
-  createFolderAPI,
-  updateFolderAPI,
-  deleteFolderAPI,
-} from "../../../../../apis";
+import { updateFolderAPI } from "../../../../../apis";
 import FolderDetailModal from "./FolderDetailModal/FolderDetailModal";
 import {
   fetchFolders,

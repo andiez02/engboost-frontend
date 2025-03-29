@@ -8,7 +8,6 @@ import { Card as MuiCard } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import TextField from "@mui/material/TextField";
 import Zoom from "@mui/material/Zoom";
-import Alert from "@mui/material/Alert";
 import {
   EMAIL_RULE,
   EMAIL_RULE_MESSAGE,
@@ -47,17 +46,18 @@ function RegisterForm() {
     <>
       <Header />
       <div className="min-h-screen relative flex justify-center items-center bg-gradient-to-r from-blue-300 via-blue-400 to-blue-300 animate-gradient">
-        <div className="w-[50%] min-h-[60%] absolute bottom-0 ">
+        <div className="w-full md:w-[50%] min-h-[60%] absolute bottom-0 pt-[80px] md:pt-[20px]">
           <form onSubmit={handleSubmit(submitRegister)}>
             <Zoom in={true} style={{ transitionDelay: "200ms" }}>
               <MuiCard
                 sx={{
-                  minHeight: "83vh",
+                  minHeight: { xs: "calc(100vh - 80px)", md: "83vh" },
                   borderTopLeftRadius: "26px",
                   borderTopRightRadius: "26px",
+                  marginTop: { xs: "20px", md: "0" },
                 }}
               >
-                <Box sx={{ margin: "55px" }}>
+                <Box sx={{ margin: { xs: "20px", md: "55px" } }}>
                   <Box
                     sx={{
                       margin: "1em",
@@ -66,14 +66,13 @@ function RegisterForm() {
                       gap: 1,
                     }}
                   >
-                    <h2 className="text-4xl font-bold text-gray-800 tracking-wide relative before:absolute before:-bottom-2 before:left-1/2 before:w-0 before:h-1 before:bg-blue-500 before:transition-all before:duration-300 hover:before:w-full hover:before:left-0">
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 tracking-wide relative before:absolute before:-bottom-2 before:left-1/2 before:w-0 before:h-1 before:bg-blue-500 before:transition-all before:duration-300 hover:before:w-full hover:before:left-0">
                       Đăng ký
                     </h2>
                   </Box>
                   <Box sx={{ padding: "0 1em 1em 1em" }}>
                     <Box sx={{ marginTop: "1em" }}>
                       <TextField
-                        // autoComplete="nope"
                         autoFocus
                         fullWidth
                         label="Nhập Email..."
@@ -135,17 +134,26 @@ function RegisterForm() {
                       color="primary"
                       size="large"
                       fullWidth
+                      sx={{
+                        height: { xs: "44px", md: "48px" },
+                        fontSize: { xs: "0.875rem", md: "1rem" },
+                      }}
                     >
                       Đăng ký
                     </Button>
                   </CardActions>
                   <Box sx={{ padding: "0 1em 1em 1em", textAlign: "center" }}>
-                    <Typography>Đã có tài khoản?</Typography>
+                    <Typography
+                      sx={{ fontSize: { xs: "0.875rem", md: "1rem" } }}
+                    >
+                      Đã có tài khoản?
+                    </Typography>
                     <Link to="/login" style={{ textDecoration: "none" }}>
                       <Typography
                         sx={{
                           color: "primary.main",
                           "&:hover": { color: "#ffbb39" },
+                          fontSize: { xs: "0.875rem", md: "1rem" },
                         }}
                       >
                         Đăng nhập
