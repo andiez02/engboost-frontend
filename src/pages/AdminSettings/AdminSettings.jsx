@@ -1,21 +1,20 @@
-import { useState } from "react";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import SecurityIcon from "@mui/icons-material/Security";
-import PersonIcon from "@mui/icons-material/Person";
-import { Link, useLocation } from "react-router-dom";
-import AccountTab from "../Settings/AccountTab";
-import SecurityTab from "../Settings/SecurityTab";
-import Header from "../../components/Layout/Header";
-import HeaderAdmin from "../../components/Layout/HeaderAdmin";
+import { useState } from 'react';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import SecurityIcon from '@mui/icons-material/Security';
+import PersonIcon from '@mui/icons-material/Person';
+import { Link, useLocation } from 'react-router-dom';
+import AccountTab from '../Settings/AccountTab';
+import SecurityTab from '../Settings/SecurityTab';
+import HeaderAdmin from '../../components/Layout/HeaderAdmin';
 
 const TABS = {
-  ADMIN_ACCOUNT: "admin_account",
-  ADMIN_SECURITY: "admin_security",
+  ADMIN_ACCOUNT: 'admin_account',
+  ADMIN_SECURITY: 'admin_security',
 };
 
 function AdminSettings() {
@@ -36,7 +35,7 @@ function AdminSettings() {
       <HeaderAdmin />
       <TabContext value={activeTab}>
         <Box
-          sx={{ borderBottom: 1, borderColor: "divider", marginTop: "60px" }}
+          sx={{ borderBottom: 1, borderColor: 'divider', marginTop: '60px' }}
         >
           <TabList onChange={handleChangeTab}>
             <Tab

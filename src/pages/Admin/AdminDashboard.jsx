@@ -1,11 +1,10 @@
-import React from 'react';
-import HeaderAdmin from '../../components/Layout/HeaderAdmin';
+import AdminLayout from '../../components/Layout/AdminLayout';
 
 function AdminDashboard() {
   return (
-    <div>
-      <HeaderAdmin />
-    </div>
+    <AdminLayout title="Dashboard">
+      <div className="p-6">{/* Dashboard content will be added here */}</div>
+    </AdminLayout>
   );
 }
 

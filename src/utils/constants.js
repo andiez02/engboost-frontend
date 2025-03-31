@@ -1,40 +1,49 @@
-export const API_ROOT = "http://127.0.0.1:5000/api";
+export const API_ROOT = 'http://127.0.0.1:5000/api';
 
 export const routes = {
   //Home
-  DEFAULT: "/",
+  DEFAULT: '/',
   //Home
-  HOME: "/home",
+  HOME: '/home',
   //Course
-  COURSE: "/course",
+  COURSE: '/course',
   //Blog
-  BLOG: "/blog",
+  BLOG: '/blog',
   //About Us
-  ABOUT_US: "/about_us",
+  ABOUT_US: '/about_us',
 
   /* CLIENT */
   //Dashboard
-  DASHBOARD: "/dashboard",
+  DASHBOARD: '/dashboard',
   //Flashcard
-  FLASHCARD: "/flashcard",
+  FLASHCARD: '/flashcard',
   //Dashboard
-  MY_COURSE: "/my_course",
+  MY_COURSE: '/my_course',
   //Setting Account
-  SETTINGS_ACCOUNT: "/settings/account",
+  SETTINGS_ACCOUNT: '/settings/account',
   //Setting Security
-  SETTINGS_SECURITY: "/settings/security",
+  SETTINGS_SECURITY: '/settings/security',
   //Flashcard Discover
-  FLASHCARD_DISCOVER: "/flashcard/discover",
+  FLASHCARD_DISCOVER: '/flashcard/discover',
   //Flashcard Folders
-  FLASHCARD_FOLDERS: "/flashcard/folders",
+  FLASHCARD_FOLDERS: '/flashcard/folders',
   //Flashcard Snaplang
-  FLASHCARD_SNAPLANG: "/flashcard/snaplang",
+  FLASHCARD_SNAPLANG: '/flashcard/snaplang',
 
   /* ADMIN */
   //Admin Dashboard
-  ADMIN_DASHBOARD: "/admin/dashboard",
+  ADMIN_DASHBOARD: '/admin/dashboard',
   //Admin Setting account
-  ADMIN_SETTINGS_ACCOUNT: "/admin/settings/account",
+  ADMIN_SETTINGS_ACCOUNT: '/admin/settings/account',
   //Admin Setting Security
-  ADMIN_SETTING_SECURITY: "/admin/settings/security",
+  ADMIN_SETTINGS_SECURITY: '/admin/settings/security',
+
+  //Admin Course Management
+  ADMIN_COURSE_MANAGEMENT: '/admin/course_management',
+  //Admin Blog Management
+  ADMIN_BLOG_MANAGEMENT: '/admin/blog_management',
+  //Admin Flashcard Management
+  ADMIN_FLASHCARD_MANAGEMENT: '/admin/flashcard_management',
+  //Admin User Management
+  ADMIN_USER_MANAGEMENT: '/admin/user_management',
 };
