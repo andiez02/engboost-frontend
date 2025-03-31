@@ -209,8 +209,8 @@ const SaveFlashcardModal = ({
         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
           <Avatar
             sx={{
-              bgcolor: alpha("#8B5CF6", 0.1),
-              color: "#8B5CF6",
+              bgcolor: alpha("#3B82F6", 0.1),
+              color: "#3B82F6",
               width: 42,
               height: 42,
             }}
@@ -524,10 +524,10 @@ const SaveFlashcardModal = ({
             borderRadius: "12px",
             textTransform: "none",
             fontWeight: 500,
-            backgroundColor: "#8B5CF6",
-            boxShadow: `0 4px 12px ${alpha("#8B5CF6", 0.3)}`,
+            backgroundColor: "#3B82F6",
+            boxShadow: `0 4px 12px ${alpha("#3B82F6", 0.3)}`,
             "&:hover": {
-              backgroundColor: "#7C3AED",
+              backgroundColor: "#2563EB",
             },
             px: 2,
             py: 1,

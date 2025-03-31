@@ -18,7 +18,7 @@ function Flashcard() {
       <Sidebar isOpen={isSidebarOpen} />
 
       <div
-        className={`flex-1 transition-all duration-300  ${
+        className={`flex-1 transition-all duration-300 overflow-y-auto ${
           isSidebarOpen ? "ml-64" : "ml-16"
         } p-5`}
       >

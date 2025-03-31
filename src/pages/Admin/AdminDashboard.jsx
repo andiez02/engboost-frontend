@@ -1,5 +1,5 @@
-import React from "react";
-import HeaderAdmin from "../../components/Layout/HeaderAdmin";
+import React from 'react';
+import HeaderAdmin from '../../components/Layout/HeaderAdmin';
 
 function AdminDashboard() {
   return (

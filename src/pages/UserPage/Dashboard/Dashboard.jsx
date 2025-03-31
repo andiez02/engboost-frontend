@@ -14,7 +14,7 @@ function Dashboard() {
   const currentUser = useSelector(selectCurrentUser);
   return (
     <div
-      className="flex"
+      className="flex overflow-y-auto"
       style={{
         backgroundColor: "#FDFAF6",
       }}

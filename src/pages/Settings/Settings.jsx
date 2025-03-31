@@ -34,7 +34,11 @@ function Settings() {
   };
 
   return (
-    <Container disableGutters maxWidth={false}>
+    <Container
+      disableGutters
+      maxWidth={false}
+      className="min-h-screen overflow-y-auto"
+    >
       <Header />
       <TabContext value={activeTab}>
         <Box

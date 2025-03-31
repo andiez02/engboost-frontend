@@ -36,5 +36,5 @@ export const routes = {
   //Admin Setting account
   ADMIN_SETTINGS_ACCOUNT: "/admin/settings/account",
   //Admin Setting Security
-  ADMIN_SETTING_SECURITY: "/admin/settings/secirity",
+  ADMIN_SETTING_SECURITY: "/admin/settings/security",
 };
