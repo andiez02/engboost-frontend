@@ -15,7 +15,16 @@ import HomeToFlashcardButton from "../../components/Button/HomeToFlashcardButton
 
 function Home() {
   useEffect(() => {
-    AOS.init({ duration: 2000, once: true });
+    AOS.init({
+      duration: 1200,
+      once: true,
+      offset: 300,
+      easing: "ease-out",
+      anchorPlacement: "center-bottom",
+      disable: "mobile",
+      startEvent: "load",
+      disableMutationObserver: true,
+    });
   }, []);
   return (
     <>
@@ -44,7 +53,10 @@ function Home() {
 
           <div
             data-aos="fade-right"
-            data-aos-anchor-placement="top-center"
+            data-aos-duration="1200"
+            data-aos-offset="300"
+            data-aos-easing="ease-out"
+            data-aos-anchor-placement="center-bottom"
             className="mt-40 mx-36 flex items-center gap-20"
           >
             <div className="w-3/5">
@@ -81,6 +93,10 @@ function Home() {
 
           <div
             data-aos="fade-left"
+            data-aos-duration="1200"
+            data-aos-offset="300"
+            data-aos-easing="ease-out"
+            data-aos-anchor-placement="center-bottom"
             className="mt-40 mx-36 flex items-center gap-20 "
           >
             <div className="relative">
@@ -113,6 +129,10 @@ function Home() {
 
           <div
             data-aos="fade-right"
+            data-aos-duration="1200"
+            data-aos-offset="300"
+            data-aos-easing="ease-out"
+            data-aos-anchor-placement="center-bottom"
             className="mt-40 mx-36 flex items-center gap-20"
           >
             <div className="w-3/5">
@@ -139,6 +159,10 @@ function Home() {
           <div
             className="bg-white shadow-lg rounded-xl p-6 text-center"
             data-aos="zoom-in"
+            data-aos-duration="1000"
+            data-aos-offset="250"
+            data-aos-easing="ease-out"
+            data-aos-anchor-placement="center-bottom"
           >
             <h3 className="text-xl font-semibold mb-2">
               <span>📸 Chụp ảnh, nhận diện từ vựng</span>
@@ -153,6 +177,10 @@ function Home() {
             className="bg-white shadow-lg rounded-xl p-6 text-center"
             data-aos="zoom-in"
             data-aos-delay="200"
+            data-aos-duration="1000"
+            data-aos-offset="250"
+            data-aos-easing="ease-out"
+            data-aos-anchor-placement="center-bottom"
           >
             <h3 className="text-xl font-semibold mb-2">
               📖 Ôn tập từ vựng đã học
@@ -164,6 +192,10 @@ function Home() {
             className="bg-white shadow-lg rounded-xl p-6 text-center"
             data-aos="zoom-in"
             data-aos-delay="400"
+            data-aos-duration="1000"
+            data-aos-offset="250"
+            data-aos-easing="ease-out"
+            data-aos-anchor-placement="center-bottom"
           >
             <h3 className="text-xl font-semibold mb-2">
               🎯 Cá nhân hoá lộ trình học

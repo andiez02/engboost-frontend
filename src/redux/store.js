@@ -9,7 +9,7 @@ import folderReducer from "./folder/folderSlice";
 const rootPersistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["user"],
+  whitelist: ["user", "folders"],
 };
 
 const reducers = combineReducers({

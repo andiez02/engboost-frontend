@@ -31,7 +31,6 @@ import {
   CheckCircle as CheckCircleIcon,
   CreateNewFolder as CreateNewFolderIcon,
 } from "@mui/icons-material";
-import { saveFlashcardsToFolderAPI } from "../../apis";
 import { fetchFolders } from "../../redux/folder/folderSlice";
 
 const SaveFlashcardModal = ({

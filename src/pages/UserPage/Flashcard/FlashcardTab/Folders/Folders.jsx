@@ -67,6 +67,11 @@ const Folders = () => {
       const response = await updateFolderAPI(folderId, data);
       if (response && response.folder) {
         dispatch(fetchFolders()); // Refresh folders after edit
+        // Update selected folder state with new data
+        setSelectedFolder((prev) => ({
+          ...prev,
+          ...response.folder,
+        }));
       }
     } catch (error) {
       console.error("Error updating folder:", error);

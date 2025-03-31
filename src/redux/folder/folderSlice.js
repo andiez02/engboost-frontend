@@ -96,31 +96,28 @@ const folderSlice = createSlice({
       })
       // Create Folder
       .addCase(createFolder.pending, (state) => {
-        state.isLoading = true;
         state.error = null;
       })
       .addCase(createFolder.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.folders.unshift(action.payload);
       })
       .addCase(createFolder.rejected, (state, action) => {
-        state.isLoading = false;
         state.error = action.payload;
       })
       // Delete Folder
       .addCase(deleteFolder.pending, (state) => {
-        state.isLoading = true;
+        // state.isLoading = true;
         state.error = null;
       })
       .addCase(deleteFolder.fulfilled, (state, action) => {
-        state.isLoading = false;
+        // state.isLoading = false;
         state.folders = state.folders.filter((f) => f._id !== action.payload);
         if (state.selectedFolder === action.payload) {
           state.selectedFolder = null;
         }
       })
       .addCase(deleteFolder.rejected, (state, action) => {
-        state.isLoading = false;
+        // state.isLoading = false;
         state.error = action.payload;
       });
   },

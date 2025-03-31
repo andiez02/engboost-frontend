@@ -113,6 +113,11 @@ const FolderDetailModal = ({
             folderTitle.trim()
           );
           await onEdit(selectedFolder._id, { title: folderTitle.trim() });
+          // Update local state with new title
+          setSelectedFolder((prev) => ({
+            ...prev,
+            title: folderTitle.trim(),
+          }));
         } else {
           console.log("Title unchanged, skipping update");
         }
