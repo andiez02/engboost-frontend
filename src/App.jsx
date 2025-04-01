@@ -19,6 +19,7 @@ import UserManagement from './pages/Admin/UserManagement.jsx';
 import CourseManagement from './pages/Admin/CourseManagement.jsx';
 import FlashcardManagement from './pages/Admin/FlashcardManagement.jsx';
 import BlogManagement from './pages/Admin/BlogManagement.jsx';
+import AdminLayout from './components/Layout/AdminLayout.jsx';
 
 const ProtectedRoute = ({ user, allowedRoles }) => {
   if (!user) return <Navigate to="/login" replace={true} />;
@@ -80,28 +81,31 @@ function App() {
           <ProtectedRoute user={currentUser?.user} allowedRoles={['ADMIN']} />
         }
       >
-        {/* Admin Dashboard */}
-        <Route path={routes.ADMIN_DASHBOARD} element={<AdminDashboard />} />
-        {/* Admin User Management */}
-        <Route
-          path={routes.ADMIN_USER_MANAGEMENT}
-          element={<UserManagement />}
-        />
-        {/* Admin Course Management */}
-        <Route
-          path={routes.ADMIN_COURSE_MANAGEMENT}
-          element={<CourseManagement />}
-        />
-        {/* Admin Flashcard Management */}
-        <Route
-          path={routes.ADMIN_FLASHCARD_MANAGEMENT}
-          element={<FlashcardManagement />}
-        />
-        {/* Admin Blog Management */}
-        <Route
-          path={routes.ADMIN_BLOG_MANAGEMENT}
-          element={<BlogManagement />}
-        />
+        <Route element={<AdminLayout />}>
+          {/* Admin Dashboard */}
+          <Route path={routes.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+          {/* Admin User Management */}
+          <Route
+            path={routes.ADMIN_USER_MANAGEMENT}
+            element={<UserManagement />}
+          />
+          {/* Admin Course Management */}
+          <Route
+            path={routes.ADMIN_COURSE_MANAGEMENT}
+            element={<CourseManagement />}
+          />
+          {/* Admin Flashcard Management */}
+          <Route
+            path={routes.ADMIN_FLASHCARD_MANAGEMENT}
+            element={<FlashcardManagement />}
+          />
+          {/* Admin Blog Management */}
+          <Route
+            path={routes.ADMIN_BLOG_MANAGEMENT}
+            element={<BlogManagement />}
+          />
+        </Route>
+
         {/* Admin Settings */}
         <Route
           path={routes.ADMIN_SETTINGS_ACCOUNT}

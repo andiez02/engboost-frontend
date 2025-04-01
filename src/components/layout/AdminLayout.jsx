@@ -3,13 +3,12 @@ import { Outlet } from 'react-router-dom';
 import HeaderAdmin from './HeaderAdmin';
 import AdminSidebar from './AdminSidebar';
 
-const AdminLayout = ({ title }) => {
+const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <HeaderAdmin
-        title={title}
         isSidebarOpen={sidebarOpen}
         setIsSidebarOpen={setSidebarOpen}
       />

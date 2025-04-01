@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -10,14 +10,14 @@ import {
   IconButton,
   CircularProgress,
   alpha,
-} from "@mui/material";
+} from '@mui/material';
 import {
   NavigateNext as NextIcon,
   NavigateBefore as PrevIcon,
   Shuffle as ShuffleIcon,
   Close as CloseIcon,
-} from "@mui/icons-material";
-import { getFlashcardsByFolderAPI } from "../../../../../../apis";
+} from '@mui/icons-material';
+import { getFlashcardsByFolderAPI } from '../../../../../../apis';
 
 const StudyFlashcardsModal = ({ open, onClose, folder }) => {
   const [flashcards, setFlashcards] = useState([]);
@@ -40,7 +40,7 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
       setCurrentIndex(0);
       setIsFlipped(false);
     } catch (error) {
-      console.error("Error fetching flashcards:", error);
+      console.error('Error fetching flashcards:', error);
       setFlashcards([]);
     } finally {
       setIsLoading(false);
@@ -82,18 +82,18 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
         fullWidth
         PaperProps={{
           sx: {
-            borderRadius: "20px",
-            overflow: "hidden",
+            borderRadius: '20px',
+            overflow: 'hidden',
           },
         }}
       >
         <DialogContent>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: "400px",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '400px',
             }}
           >
             <CircularProgress />
@@ -112,8 +112,8 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
         fullWidth
         PaperProps={{
           sx: {
-            borderRadius: "20px",
-            overflow: "hidden",
+            borderRadius: '20px',
+            overflow: 'hidden',
           },
         }}
       >
@@ -121,9 +121,9 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
           sx={{
             p: 3,
             pb: 2,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
           <Typography variant="h6" fontWeight={600}>
@@ -134,7 +134,7 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
             color="inherit"
             onClick={onClose}
             aria-label="close"
-            sx={{ color: "text.secondary" }}
+            sx={{ color: 'text.secondary' }}
           >
             <CloseIcon />
           </IconButton>
@@ -142,9 +142,9 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
         <DialogContent>
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
               gap: 3,
               py: 4,
             }}
@@ -169,8 +169,8 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
       fullWidth
       PaperProps={{
         sx: {
-          borderRadius: "20px",
-          overflow: "hidden",
+          borderRadius: '20px',
+          overflow: 'hidden',
         },
       }}
     >
@@ -178,12 +178,12 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
         sx={{
           p: 3,
           pb: 2,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Typography variant="h6" fontWeight={600}>
             Học Flashcards
           </Typography>
@@ -196,7 +196,7 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
           color="inherit"
           onClick={onClose}
           aria-label="close"
-          sx={{ color: "text.secondary" }}
+          sx={{ color: 'text.secondary' }}
         >
           <CloseIcon />
         </IconButton>
@@ -205,9 +205,9 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
       <DialogContent>
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             gap: 3,
             py: 4,
           }}
@@ -215,40 +215,40 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
           {/* Flashcard */}
           <Box
             sx={{
-              width: "100%",
-              height: "300px",
-              perspective: "1000px",
-              cursor: "pointer",
+              width: '100%',
+              height: '300px',
+              perspective: '1000px',
+              cursor: 'pointer',
             }}
             onClick={handleFlip}
           >
             <Box
               sx={{
-                position: "relative",
-                width: "100%",
-                height: "100%",
-                transformStyle: "preserve-3d",
-                transition: "transform 0.6s",
-                transform: isFlipped ? "rotateY(180deg)" : "rotateY(0)",
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                transformStyle: 'preserve-3d',
+                transition: 'transform 0.6s',
+                transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0)',
               }}
             >
               {/* Front of card */}
               <Box
                 sx={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  backfaceVisibility: "hidden",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  backfaceVisibility: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   p: 3,
-                  borderRadius: "16px",
+                  borderRadius: '16px',
                   background:
-                    "linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)",
-                  color: "white",
-                  boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+                    'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  color: 'white',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
                 }}
               >
                 {currentCard?.image_url && (
@@ -257,12 +257,12 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
                     src={currentCard.image_url}
                     alt={currentCard.english}
                     sx={{
-                      width: "100%",
-                      height: "200px",
-                      objectFit: "contain",
+                      width: '100%',
+                      height: '200px',
+                      objectFit: 'contain',
                       mb: 2,
-                      borderRadius: "8px",
-                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      borderRadius: '8px',
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
                     }}
                   />
                 )}
@@ -270,7 +270,7 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
                   variant="h4"
                   fontWeight={600}
                   align="center"
-                  sx={{ wordBreak: "break-word" }}
+                  sx={{ wordBreak: 'break-word' }}
                 >
                   {currentCard?.english}
                 </Typography>
@@ -279,19 +279,19 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
               {/* Back of card */}
               <Box
                 sx={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  backfaceVisibility: "hidden",
-                  transform: "rotateY(180deg)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  backfaceVisibility: 'hidden',
+                  transform: 'rotateY(180deg)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   p: 3,
-                  borderRadius: "16px",
-                  background: "white",
-                  boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-                  border: "1px solid rgba(0,0,0,0.1)",
+                  borderRadius: '16px',
+                  background: 'white',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                  border: '1px solid rgba(0,0,0,0.1)',
                 }}
               >
                 <Typography
@@ -299,7 +299,7 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
                   fontWeight={600}
                   align="center"
                   color="text.primary"
-                  sx={{ wordBreak: "break-word" }}
+                  sx={{ wordBreak: 'break-word' }}
                 >
                   {currentCard?.vietnamese}
                 </Typography>
@@ -310,8 +310,8 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
           {/* Navigation buttons */}
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
+              display: 'flex',
+              alignItems: 'center',
               gap: 2,
             }}
           >
@@ -319,9 +319,9 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
               onClick={handlePrev}
               disabled={currentIndex === 0}
               sx={{
-                backgroundColor: alpha("#8B5CF6", 0.1),
-                "&:hover": {
-                  backgroundColor: alpha("#8B5CF6", 0.2),
+                backgroundColor: alpha('#8B5CF6', 0.1),
+                '&:hover': {
+                  backgroundColor: alpha('#8B5CF6', 0.2),
                 },
               }}
             >
@@ -332,27 +332,28 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
               variant="contained"
               onClick={handleFlip}
               sx={{
-                borderRadius: "12px",
-                textTransform: "none",
+                borderRadius: '12px',
+                textTransform: 'none',
+                width: '160px',
                 px: 3,
                 py: 1,
-                backgroundColor: "#8B5CF6",
-                boxShadow: `0 4px 12px ${alpha("#8B5CF6", 0.3)}`,
-                "&:hover": {
-                  backgroundColor: "#7C3AED",
+                backgroundColor: '#8B5CF6',
+                boxShadow: `0 4px 12px ${alpha('#8B5CF6', 0.3)}`,
+                '&:hover': {
+                  backgroundColor: '#7C3AED',
                 },
               }}
             >
-              {isFlipped ? "Xem câu hỏi" : "Xem đáp án"}
+              {isFlipped ? 'Xem câu hỏi' : 'Xem đáp án'}
             </Button>
 
             <IconButton
               onClick={handleNext}
               disabled={currentIndex === flashcards.length - 1}
               sx={{
-                backgroundColor: alpha("#8B5CF6", 0.1),
-                "&:hover": {
-                  backgroundColor: alpha("#8B5CF6", 0.2),
+                backgroundColor: alpha('#8B5CF6', 0.1),
+                '&:hover': {
+                  backgroundColor: alpha('#8B5CF6', 0.2),
                 },
               }}
             >
@@ -366,17 +367,17 @@ const StudyFlashcardsModal = ({ open, onClose, folder }) => {
             startIcon={<ShuffleIcon />}
             onClick={handleShuffle}
             sx={{
-              borderRadius: "12px",
-              textTransform: "none",
-              borderColor: "#E5E7EB",
-              color: isShuffled ? "#8B5CF6" : "text.secondary",
-              "&:hover": {
-                borderColor: "#8B5CF6",
-                backgroundColor: alpha("#8B5CF6", 0.05),
+              borderRadius: '12px',
+              textTransform: 'none',
+              borderColor: '#E5E7EB',
+              color: isShuffled ? '#8B5CF6' : 'text.secondary',
+              '&:hover': {
+                borderColor: '#8B5CF6',
+                backgroundColor: alpha('#8B5CF6', 0.05),
               },
             }}
           >
-            {isShuffled ? "Bỏ xáo trộn" : "Xáo trộn thẻ"}
+            {isShuffled ? 'Bỏ xáo trộn' : 'Xáo trộn thẻ'}
           </Button>
         </Box>
       </DialogContent>
