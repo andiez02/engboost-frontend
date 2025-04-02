@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Dialog,
   DialogTitle,
@@ -23,15 +23,15 @@ import {
   IconButton,
   alpha,
   FormHelperText,
-} from "@mui/material";
+} from '@mui/material';
 import {
   Folder as FolderIcon,
   SaveAlt as SaveAltIcon,
   Close as CloseIcon,
   CheckCircle as CheckCircleIcon,
   CreateNewFolder as CreateNewFolderIcon,
-} from "@mui/icons-material";
-import { fetchFolders } from "../../redux/folder/folderSlice";
+} from '@mui/icons-material';
+import { fetchFolders } from '../../redux/folder/folderSlice';
 
 const SaveFlashcardModal = ({
   open,
@@ -40,16 +40,17 @@ const SaveFlashcardModal = ({
   onSave,
   initialFolderId = null,
   initialFolderTitle = null,
+  onFolderUpdate = null,
 }) => {
   const dispatch = useDispatch();
   const { folders, isLoading: isLoadingFolders } = useSelector(
     (state) => state.folders
   );
   const [isSaving, setIsSaving] = useState(false);
-  const [selectedFolder, setSelectedFolder] = useState(initialFolderId || "");
+  const [selectedFolder, setSelectedFolder] = useState(initialFolderId || '');
   const [createNewFolder, setCreateNewFolder] = useState(!initialFolderId);
-  const [newFolderName, setNewFolderName] = useState(initialFolderTitle || "");
-  const [error, setError] = useState("");
+  const [newFolderName, setNewFolderName] = useState(initialFolderTitle || '');
+  const [error, setError] = useState('');
   const [showPreview, setShowPreview] = useState(false);
   const [folderNameExists, setFolderNameExists] = useState(false);
 
@@ -57,7 +58,7 @@ const SaveFlashcardModal = ({
   useEffect(() => {
     if (open) {
       dispatch(fetchFolders());
-      setError(""); // Reset error khi mở modal
+      setError(''); // Reset error khi mở modal
     }
   }, [open, dispatch]);
 
@@ -75,7 +76,7 @@ const SaveFlashcardModal = ({
           `Folder "${newFolderName.trim()}" already exists. Please choose a different name.`
         );
       } else {
-        setError("");
+        setError('');
       }
     } else {
       setFolderNameExists(false);
@@ -87,7 +88,7 @@ const SaveFlashcardModal = ({
       (!selectedFolder && !createNewFolder) ||
       (createNewFolder && !newFolderName.trim())
     ) {
-      setError("Please select a folder or create a new one");
+      setError('Please select a folder or create a new one');
       return;
     }
 
@@ -105,7 +106,8 @@ const SaveFlashcardModal = ({
         isNew: createNewFolder,
         title: createNewFolder
           ? newFolderName.trim()
-          : folders.find((f) => f._id === selectedFolder)?.title || "Unknown",
+          : folders.find((f) => f._id === selectedFolder)?.title || 'Unknown',
+        onFolderUpdate,
       };
 
       if (onSave) {
@@ -114,11 +116,11 @@ const SaveFlashcardModal = ({
 
       onClose();
     } catch (error) {
-      console.error("Error saving flashcards:", error);
+      console.error('Error saving flashcards:', error);
       if (error.response && error.response.data) {
         const errorMessage =
           error.response.data.message || error.response.data.error;
-        if (errorMessage && errorMessage.includes("already exists")) {
+        if (errorMessage && errorMessage.includes('already exists')) {
           setError(
             `Folder "${newFolderName.trim()}" already exists. Please choose a different name.`
           );
@@ -126,11 +128,11 @@ const SaveFlashcardModal = ({
           dispatch(fetchFolders());
         } else {
           setError(
-            errorMessage || "Failed to save flashcards. Please try again."
+            errorMessage || 'Failed to save flashcards. Please try again.'
           );
         }
       } else {
-        setError("Failed to save flashcards. Please try again.");
+        setError('Failed to save flashcards. Please try again.');
       }
     } finally {
       setIsSaving(false);
@@ -144,6 +146,7 @@ const SaveFlashcardModal = ({
     onSave,
     onClose,
     dispatch,
+    onFolderUpdate,
   ]);
 
   const handleFolderNameChange = (e) => {
@@ -162,23 +165,23 @@ const SaveFlashcardModal = ({
           `Folder "${value.trim()}" already exists. Please choose a different name.`
         );
       } else {
-        setError("");
+        setError('');
       }
     } else {
       setFolderNameExists(false);
-      setError("");
+      setError('');
     }
   };
 
   const toggleCreateNewFolder = () => {
     setCreateNewFolder(!createNewFolder);
     if (!createNewFolder) {
-      setSelectedFolder("");
-      setNewFolderName("");
+      setSelectedFolder('');
+      setNewFolderName('');
     } else {
-      setNewFolderName("");
+      setNewFolderName('');
     }
-    setError("");
+    setError('');
     setFolderNameExists(false);
   };
 
@@ -190,9 +193,9 @@ const SaveFlashcardModal = ({
       fullWidth
       PaperProps={{
         sx: {
-          borderRadius: "20px",
-          overflow: "hidden",
-          boxShadow: "0 20px 50px rgba(0,0,0,0.15)",
+          borderRadius: '20px',
+          overflow: 'hidden',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.15)',
         },
       }}
     >
@@ -201,16 +204,16 @@ const SaveFlashcardModal = ({
         sx={{
           p: 3,
           pb: 2,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Avatar
             sx={{
-              bgcolor: alpha("#3B82F6", 0.1),
-              color: "#3B82F6",
+              bgcolor: alpha('#3B82F6', 0.1),
+              color: '#3B82F6',
               width: 42,
               height: 42,
             }}
@@ -222,7 +225,7 @@ const SaveFlashcardModal = ({
               Save Flashcards
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {flashcards.length} flashcard{flashcards.length !== 1 ? "s" : ""}{" "}
+              {flashcards.length} flashcard{flashcards.length !== 1 ? 's' : ''}{' '}
               to save
             </Typography>
           </Box>
@@ -233,7 +236,7 @@ const SaveFlashcardModal = ({
             color="inherit"
             onClick={onClose}
             aria-label="close"
-            sx={{ color: "text.secondary" }}
+            sx={{ color: 'text.secondary' }}
           >
             <CloseIcon />
           </IconButton>
@@ -248,9 +251,9 @@ const SaveFlashcardModal = ({
           <Typography
             variant="subtitle2"
             fontWeight={600}
-            sx={{ mb: 2, display: "flex", alignItems: "center", gap: 1 }}
+            sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            <FolderIcon fontSize="small" sx={{ color: "#8B5CF6" }} />
+            <FolderIcon fontSize="small" sx={{ color: '#8B5CF6' }} />
             Select Destination
           </Typography>
 
@@ -262,21 +265,21 @@ const SaveFlashcardModal = ({
                 value={selectedFolder}
                 onChange={(e) => {
                   setSelectedFolder(e.target.value);
-                  setError("");
+                  setError('');
                 }}
                 label="Choose a folder"
                 disabled={isLoadingFolders || isSaving}
                 sx={{
-                  borderRadius: "12px",
-                  "& .MuiOutlinedInput-notchedOutline": {
+                  borderRadius: '12px',
+                  '& .MuiOutlinedInput-notchedOutline': {
                     borderColor:
-                      !!error && !selectedFolder ? "error.main" : undefined,
+                      !!error && !selectedFolder ? 'error.main' : undefined,
                   },
                 }}
               >
                 {isLoadingFolders ? (
                   <MenuItem value="" disabled>
-                    <Box sx={{ display: "flex", alignItems: "center", py: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', py: 1 }}>
                       <CircularProgress size={20} sx={{ mr: 2 }} />
                       Loading folders...
                     </Box>
@@ -284,9 +287,9 @@ const SaveFlashcardModal = ({
                 ) : folders?.length > 0 ? (
                   folders.map((folder) => (
                     <MenuItem key={folder._id} value={folder._id}>
-                      <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <FolderIcon
-                          sx={{ mr: 1.5, color: "#8B5CF6", fontSize: 20 }}
+                          sx={{ mr: 1.5, color: '#8B5CF6', fontSize: 20 }}
                         />
                         {folder.title}
                       </Box>
@@ -311,16 +314,16 @@ const SaveFlashcardModal = ({
               onChange={handleFolderNameChange}
               disabled={isSaving}
               error={!!error && createNewFolder}
-              helperText={!!error && createNewFolder ? error : ""}
+              helperText={!!error && createNewFolder ? error : ''}
               sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "12px",
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '12px',
                 },
               }}
               InputProps={{
                 startAdornment: (
                   <CreateNewFolderIcon
-                    sx={{ mr: 1, color: "#8B5CF6", opacity: 0.7 }}
+                    sx={{ mr: 1, color: '#8B5CF6', opacity: 0.7 }}
                   />
                 ),
               }}
@@ -338,17 +341,17 @@ const SaveFlashcardModal = ({
             }
             sx={{
               mt: 1.5,
-              textTransform: "none",
+              textTransform: 'none',
               fontWeight: 500,
-              color: "#8B5CF6",
-              "&:hover": {
-                backgroundColor: alpha("#8B5CF6", 0.05),
+              color: '#8B5CF6',
+              '&:hover': {
+                backgroundColor: alpha('#8B5CF6', 0.05),
               },
             }}
           >
             {createNewFolder
-              ? "Select from existing folders"
-              : "Create a new folder"}
+              ? 'Select from existing folders'
+              : 'Create a new folder'}
           </Button>
         </Box>
 
@@ -358,18 +361,18 @@ const SaveFlashcardModal = ({
         <Box>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               mb: 2,
             }}
           >
             <Typography
               variant="subtitle2"
               fontWeight={600}
-              sx={{ display: "flex", alignItems: "center", gap: 1 }}
+              sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
             >
-              <CheckCircleIcon fontSize="small" sx={{ color: "#8B5CF6" }} />
+              <CheckCircleIcon fontSize="small" sx={{ color: '#8B5CF6' }} />
               Flashcards to Save
             </Typography>
             <Button
@@ -377,33 +380,33 @@ const SaveFlashcardModal = ({
               size="small"
               onClick={() => setShowPreview(!showPreview)}
               sx={{
-                textTransform: "none",
-                color: "text.secondary",
+                textTransform: 'none',
+                color: 'text.secondary',
                 fontWeight: 500,
               }}
             >
-              {showPreview ? "Hide preview" : "Show preview"}
+              {showPreview ? 'Hide preview' : 'Show preview'}
             </Button>
           </Box>
 
           <Paper
             variant="outlined"
             sx={{
-              borderRadius: "16px",
-              borderColor: "rgba(0,0,0,0.1)",
-              bgcolor: alpha("#8B5CF6", 0.02),
-              overflow: "hidden",
+              borderRadius: '16px',
+              borderColor: 'rgba(0,0,0,0.1)',
+              bgcolor: alpha('#8B5CF6', 0.02),
+              overflow: 'hidden',
             }}
           >
             <Box
               sx={{
                 p: 2,
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 borderBottom: showPreview
-                  ? "1px solid rgba(0,0,0,0.08)"
-                  : "none",
+                  ? '1px solid rgba(0,0,0,0.08)'
+                  : 'none',
               }}
             >
               <Typography variant="body2" color="text.secondary">
@@ -414,8 +417,8 @@ const SaveFlashcardModal = ({
                 size="small"
                 sx={{
                   fontWeight: 600,
-                  bgcolor: alpha("#8B5CF6", 0.1),
-                  color: "#8B5CF6",
+                  bgcolor: alpha('#8B5CF6', 0.1),
+                  color: '#8B5CF6',
                 }}
               />
             </Box>
@@ -423,8 +426,8 @@ const SaveFlashcardModal = ({
             {showPreview && (
               <List
                 sx={{
-                  maxHeight: "200px",
-                  overflow: "auto",
+                  maxHeight: '200px',
+                  overflow: 'auto',
                   p: 0,
                 }}
               >
@@ -435,15 +438,15 @@ const SaveFlashcardModal = ({
                     sx={{
                       px: 2,
                       py: 1.5,
-                      display: "flex",
-                      alignItems: "flex-start",
+                      display: 'flex',
+                      alignItems: 'flex-start',
                       gap: 2,
                     }}
                   >
                     <Avatar
                       src={card.imageUrl}
                       variant="rounded"
-                      sx={{ width: 48, height: 48, borderRadius: "8px" }}
+                      sx={{ width: 48, height: 48, borderRadius: '8px' }}
                     />
                     <Box sx={{ flexGrow: 1, minWidth: 0 }}>
                       <Typography
@@ -451,8 +454,8 @@ const SaveFlashcardModal = ({
                         fontWeight={600}
                         sx={{
                           mb: 0.5,
-                          display: "flex",
-                          alignItems: "center",
+                          display: 'flex',
+                          alignItems: 'center',
                           gap: 1,
                         }}
                       >
@@ -463,9 +466,9 @@ const SaveFlashcardModal = ({
                             size="small"
                             sx={{
                               height: 20,
-                              fontSize: "0.65rem",
-                              bgcolor: alpha("#8B5CF6", 0.1),
-                              color: "#8B5CF6",
+                              fontSize: '0.65rem',
+                              bgcolor: alpha('#8B5CF6', 0.1),
+                              color: '#8B5CF6',
                             }}
                           />
                         )}
@@ -494,14 +497,14 @@ const SaveFlashcardModal = ({
           disabled={isSaving}
           variant="outlined"
           sx={{
-            borderRadius: "12px",
-            textTransform: "none",
+            borderRadius: '12px',
+            textTransform: 'none',
             fontWeight: 500,
-            borderColor: "#E5E7EB",
-            color: "#6B7280",
-            "&:hover": {
-              borderColor: "#D1D5DB",
-              backgroundColor: "#F9FAFB",
+            borderColor: '#E5E7EB',
+            color: '#6B7280',
+            '&:hover': {
+              borderColor: '#D1D5DB',
+              backgroundColor: '#F9FAFB',
             },
             px: 2,
             py: 1,
@@ -521,19 +524,19 @@ const SaveFlashcardModal = ({
             isSaving ? <CircularProgress size={20} /> : <SaveAltIcon />
           }
           sx={{
-            borderRadius: "12px",
-            textTransform: "none",
+            borderRadius: '12px',
+            textTransform: 'none',
             fontWeight: 500,
-            backgroundColor: "#3B82F6",
-            boxShadow: `0 4px 12px ${alpha("#3B82F6", 0.3)}`,
-            "&:hover": {
-              backgroundColor: "#2563EB",
+            backgroundColor: '#3B82F6',
+            boxShadow: `0 4px 12px ${alpha('#3B82F6', 0.3)}`,
+            '&:hover': {
+              backgroundColor: '#2563EB',
             },
             px: 2,
             py: 1,
           }}
         >
-          {isSaving ? "Saving..." : "Save Flashcards"}
+          {isSaving ? 'Saving...' : 'Save Flashcards'}
         </Button>
       </DialogActions>
     </Dialog>

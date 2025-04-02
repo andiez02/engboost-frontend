@@ -1,56 +1,77 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getFoldersAPI, createFolderAPI, deleteFolderAPI } from "../../apis";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  getFoldersAPI,
+  createFolderAPI,
+  deleteFolderAPI,
+  getPublicFoldersAPI,
+} from '../../apis';
 
-// Async thunks
+// Thunks
 export const fetchFolders = createAsyncThunk(
-  "folders/fetchFolders",
+  'folders/fetchFolders',
   async (_, { rejectWithValue }) => {
     try {
       const response = await getFoldersAPI();
       return response.folders;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to fetch folders");
+      return rejectWithValue(error.response?.data || 'Failed to fetch folders');
+    }
+  }
+);
+
+export const fetchPublicFolders = createAsyncThunk(
+  'folders/fetchPublicFolders',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getPublicFoldersAPI();
+      return response.folders;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || 'Failed to fetch public folders'
+      );
     }
   }
 );
 
 export const createFolder = createAsyncThunk(
-  "folders/createFolder",
+  'folders/createFolder',
   async (folderData, { rejectWithValue }) => {
     try {
       const response = await createFolderAPI(folderData);
       return response.folder;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to create folder");
+      return rejectWithValue(error.response?.data || 'Failed to create folder');
     }
   }
 );
 
 export const deleteFolder = createAsyncThunk(
-  "folders/deleteFolder",
+  'folders/deleteFolder',
   async (folderId, { rejectWithValue }) => {
     try {
       await deleteFolderAPI(folderId);
       return folderId;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to delete folder");
+      return rejectWithValue(error.response?.data || 'Failed to delete folder');
     }
   }
 );
 
 const initialState = {
   folders: [],
+  publicFolders: [],
   isLoading: false,
   error: null,
   selectedFolder: null,
 };
 
 const folderSlice = createSlice({
-  name: "folders",
+  name: 'folders',
   initialState,
   reducers: {
     clearFolders: (state) => {
       state.folders = [];
+      state.publicFolders = [];
       state.error = null;
       state.selectedFolder = null;
     },
@@ -78,10 +99,17 @@ const folderSlice = createSlice({
         folder.flashcard_count = count;
       }
     },
+    updateFolderWithFlashcardCount: (state, action) => {
+      const updatedFolder = action.payload;
+      const index = state.folders.findIndex((f) => f._id === updatedFolder._id);
+      if (index !== -1) {
+        state.folders[index] = updatedFolder;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
-      // Fetch Folders
+      // Fetch folders
       .addCase(fetchFolders.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -91,6 +119,19 @@ const folderSlice = createSlice({
         state.folders = action.payload;
       })
       .addCase(fetchFolders.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Fetch public folders
+      .addCase(fetchPublicFolders.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchPublicFolders.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.publicFolders = action.payload;
+      })
+      .addCase(fetchPublicFolders.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
@@ -130,6 +171,7 @@ export const {
   addFolder,
   removeFolder,
   updateFlashcardCount,
+  updateFolderWithFlashcardCount,
 } = folderSlice.actions;
 
 export default folderSlice.reducer;

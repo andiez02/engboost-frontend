@@ -1,22 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import Folders from "./Folders/Folders";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import FolderIcon from "@mui/icons-material/Folder";
-import Snaplang from "./Snaplang/Snaplang";
-import Discover from "./Discover/Discover";
-import ExploreIcon from "@mui/icons-material/Explore";
+import React, { useCallback, useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import Folders from './Folders/Folders';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import FolderIcon from '@mui/icons-material/Folder';
+import Snaplang from './Snaplang/Snaplang';
+import Discover from './Discover/Discover';
+import ExploreIcon from '@mui/icons-material/Explore';
 
 const TABS = {
-  SNAPLANG: "snaplang",
-  FOLDERS: "folders",
-  DISCOVER: "discover",
+  SNAPLANG: 'snaplang',
+  FOLDERS: 'folders',
+  DISCOVER: 'discover',
 };
 
 function FlashcardTab() {
@@ -41,17 +41,17 @@ function FlashcardTab() {
     <div>
       <Container disableGutters maxWidth={false}>
         <TabContext value={activeTab}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList
               onChange={handleChangeTab}
               sx={{
                 minHeight: 36,
-                "& .MuiTab-root": {
+                '& .MuiTab-root': {
                   minHeight: 32,
-                  fontSize: "0.85rem",
-                  padding: "6px 12px",
-                  "& .MuiSvgIcon-root": {
-                    fontSize: "1rem",
+                  fontSize: '0.85rem',
+                  padding: '6px 12px',
+                  '& .MuiSvgIcon-root': {
+                    fontSize: '1rem',
                   },
                 },
               }}

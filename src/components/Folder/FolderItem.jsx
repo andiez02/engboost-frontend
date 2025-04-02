@@ -1,17 +1,49 @@
 import { Tooltip } from '@mui/material';
 import { FolderIcon } from 'lucide-react';
 import React from 'react';
+import {
+  Public as PublicIcon,
+  PublicOff as PublicOffIcon,
+} from '@mui/icons-material';
 
-function FolderItem({ folder, handleOpenFolder }) {
+function FolderItem({ folder, handleOpenFolder, onPublicToggle }) {
   return (
     <div>
       <Tooltip key={folder._id} title={folder.title} arrow placement="top">
         <div
           className="bg-white border border-gray-200 rounded-xl 
                          p-4 flex flex-col justify-between h-36 w-full
-                         hover:shadow-lg hover:border-blue-200 transition-all cursor-pointer"
+                         hover:shadow-lg hover:border-blue-200 transition-all cursor-pointer relative"
           onClick={() => handleOpenFolder(folder)}
         >
+          {/* Public/Private Toggle Button */}
+          {onPublicToggle && (
+            <button
+              className={`absolute top-2 right-2 p-1.5 rounded-lg text-xs font-medium flex items-center gap-1
+                ${
+                  folder.isPublic
+                    ? 'bg-blue-500 text-white hover:bg-blue-600'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              onClick={(e) => {
+                e.stopPropagation();
+                onPublicToggle(folder._id);
+              }}
+            >
+              {folder.isPublic ? (
+                <>
+                  <PublicIcon fontSize="small" />
+                  Công khai
+                </>
+              ) : (
+                <>
+                  <PublicOffIcon fontSize="small" />
+                  Riêng tư
+                </>
+              )}
+            </button>
+          )}
+
           {/* Folder Icon + Title */}
           <div className="flex flex-col items-center">
             <div className="bg-amber-50 p-2 rounded-full mb-2">

@@ -1,6 +1,6 @@
-import { API_ROOT } from "../utils/constants";
-import { toast } from "react-toastify";
-import authorizedAxiosInstance from "../utils/authorizeAxios";
+import { API_ROOT } from '../utils/constants';
+import { toast } from 'react-toastify';
+import authorizedAxiosInstance from '../utils/authorizeAxios';
 
 //User
 export const registerUserAPI = async (data) => {
@@ -9,8 +9,8 @@ export const registerUserAPI = async (data) => {
     data
   );
   toast.success(
-    "Account created successfully! Please check and verify your account before logging in!",
-    { theme: "colored" }
+    'Account created successfully! Please check and verify your account before logging in!',
+    { theme: 'colored' }
   );
   return response.data;
 };
@@ -21,8 +21,8 @@ export const verifyUserAPI = async (data) => {
     data
   );
   toast.success(
-    "Account verified successfully! Now you can enjoy our service!",
-    { theme: "colored" }
+    'Account verified successfully! Now you can enjoy our service!',
+    { theme: 'colored' }
   );
 
   return response.data;
@@ -45,17 +45,24 @@ export const snaplangDetectAPI = async (data) => {
 };
 
 //Folder
+export const getFoldersAPI = async () => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/folders`);
+  return response.data;
+};
+
+export const getPublicFoldersAPI = async () => {
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/folders/public`
+  );
+  return response.data;
+};
+
 export const createFolderAPI = async (data) => {
   const response = await authorizedAxiosInstance.post(
     `${API_ROOT}/folders`,
     data
   );
-  toast.success("Folder created successfully!", { theme: "colored" });
-  return response.data;
-};
-
-export const getFoldersAPI = async () => {
-  const response = await authorizedAxiosInstance.get(`${API_ROOT}/folders`);
+  toast.success('Folder created successfully!', { theme: 'colored' });
   return response.data;
 };
 
@@ -81,6 +88,13 @@ export const deleteFolderAPI = async (folderId) => {
   return response.data;
 };
 
+export const makeFolderPublicAPI = async (folderId) => {
+  const response = await authorizedAxiosInstance.put(
+    `${API_ROOT}/folders/${folderId}/make-public`
+  );
+  return response.data;
+};
+
 // Flashcard APIs
 export const getFlashcardsByFolderAPI = async (folderId) => {
   const response = await authorizedAxiosInstance.get(
@@ -100,7 +114,7 @@ export const deleteFlashcardAPI = async (flashcardId) => {
   const response = await authorizedAxiosInstance.delete(
     `${API_ROOT}/flashcards/${flashcardId}`
   );
-  toast.success("Flashcard deleted successfully!", { theme: "colored" });
+  toast.success('Flashcard deleted successfully!', { theme: 'colored' });
   return response.data;
 };
 

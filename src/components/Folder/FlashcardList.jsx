@@ -49,6 +49,7 @@ const FlashcardList = ({ flashcards, loading, onDeleteCard }) => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 p: '16px',
+                transition: 'all 0.2s ease',
                 '&:hover': {
                   bgcolor: 'rgba(59, 130, 246, 0.02)',
                 },
@@ -59,18 +60,19 @@ const FlashcardList = ({ flashcards, loading, onDeleteCard }) => {
                   display: 'flex',
                   alignItems: 'center',
                   width: '100%',
+                  gap: 2,
                 }}
               >
                 {card.image_url ? (
                   <Box
                     sx={{
-                      width: 50,
-                      height: 50,
-                      mr: 2,
-                      borderRadius: '6px',
+                      width: 60,
+                      height: 60,
+                      borderRadius: '8px',
                       overflow: 'hidden',
                       flexShrink: 0,
                       border: '1px solid rgba(0,0,0,0.08)',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
                     }}
                   >
                     <img
@@ -84,25 +86,25 @@ const FlashcardList = ({ flashcards, loading, onDeleteCard }) => {
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src =
-                          'https://placehold.co/50x50/eee/999?text=No+Image';
+                          'https://placehold.co/60x60/eee/999?text=No+Image';
                       }}
                     />
                   </Box>
                 ) : (
                   <Box
                     sx={{
-                      width: 50,
-                      height: 50,
-                      mr: 2,
+                      width: 60,
+                      height: 60,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       bgcolor: 'rgba(0,0,0,0.03)',
-                      borderRadius: '6px',
+                      borderRadius: '8px',
                       flexShrink: 0,
+                      border: '1px solid rgba(0,0,0,0.08)',
                     }}
                   >
-                    <Image color="disabled" sx={{ fontSize: 20 }} />
+                    <Image color="disabled" sx={{ fontSize: 24 }} />
                   </Box>
                 )}
 
@@ -110,16 +112,16 @@ const FlashcardList = ({ flashcards, loading, onDeleteCard }) => {
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
+                    gap: 0.5,
+                    flex: 1,
                   }}
                 >
                   <Typography
-                    variant="body2"
+                    variant="body1"
                     sx={{
                       fontWeight: 600,
                       color: '#1e293b',
-                      mb: 0.5,
-                      lineHeight: 1.2,
+                      lineHeight: 1.4,
                     }}
                   >
                     {card.front}
@@ -128,7 +130,7 @@ const FlashcardList = ({ flashcards, loading, onDeleteCard }) => {
                     variant="body2"
                     sx={{
                       color: '#64748b',
-                      lineHeight: 1.2,
+                      lineHeight: 1.4,
                     }}
                   >
                     {card.back}
@@ -142,6 +144,7 @@ const FlashcardList = ({ flashcards, loading, onDeleteCard }) => {
                 sx={{
                   color: '#ef4444',
                   opacity: 0.7,
+                  transition: 'all 0.2s ease',
                   '&:hover': {
                     opacity: 1,
                     bgcolor: 'rgba(239, 68, 68, 0.08)',

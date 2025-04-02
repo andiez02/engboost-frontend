@@ -86,6 +86,10 @@ const Folders = () => {
     }
   };
 
+  const handleFolderUpdate = (updatedFolder) => {
+    dispatch(fetchFolders()); // Refresh folders to update flashcard count
+  };
+
   return (
     <div className="p-4 md:p-6 min-h-screen">
       {/* Folder Grid */}
@@ -127,6 +131,7 @@ const Folders = () => {
         folder={selectedFolder}
         onEdit={handleEditFolder}
         onDelete={handleDeleteFolder}
+        onFolderUpdate={handleFolderUpdate}
       />
     </div>
   );

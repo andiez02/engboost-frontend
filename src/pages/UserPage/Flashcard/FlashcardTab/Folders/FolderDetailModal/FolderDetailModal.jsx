@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Dialog,
   IconButton,
@@ -16,7 +16,7 @@ import {
   Avatar,
   Stack,
   CircularProgress,
-} from "@mui/material";
+} from '@mui/material';
 import {
   MoreVert,
   Close,
@@ -25,16 +25,16 @@ import {
   Add,
   FolderOutlined,
   PlayArrow as PlayArrowIcon,
-} from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import { routes } from "../../../../../../utils/constants";
+} from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../../../../../utils/constants';
 import {
   getFlashcardsByFolderAPI,
   deleteFlashcardAPI,
-} from "../../../../../../apis";
-import Cards from "../../../../../../components/Card/Card";
-import StudyFlashcardsModal from "./StudyFlashcardsModal";
-import { updateFlashcardCount } from "../../../../../../redux/folder/folderSlice";
+} from '../../../../../../apis';
+import Cards from '../../../../../../components/Card/Card';
+import StudyFlashcardsModal from './StudyFlashcardsModal';
+import { updateFlashcardCount } from '../../../../../../redux/folder/folderSlice';
 
 const FolderDetailModal = ({
   open,
@@ -47,7 +47,7 @@ const FolderDetailModal = ({
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [editMode, setEditMode] = useState(false);
-  const [folderTitle, setFolderTitle] = useState("");
+  const [folderTitle, setFolderTitle] = useState('');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [flashcards, setFlashcards] = useState([]);
@@ -67,7 +67,7 @@ const FolderDetailModal = ({
       // Reset states when modal is closed or folder is deleted
       setFlashcards([]);
       setSelectedFolder(null);
-      setFolderTitle("");
+      setFolderTitle('');
       setEditMode(false);
     }
   }, [folder, open]);
@@ -79,9 +79,9 @@ const FolderDetailModal = ({
     try {
       const response = await getFlashcardsByFolderAPI(folder._id);
       setFlashcards(Array.isArray(response) ? response : []);
-      console.log("Fetched flashcards:", response);
+      console.log('Fetched flashcards:', response);
     } catch (error) {
-      console.error("Error fetching flashcards:", error);
+      console.error('Error fetching flashcards:', error);
       setFlashcards([]);
     } finally {
       setLoading(false);
@@ -107,9 +107,9 @@ const FolderDetailModal = ({
         setIsUpdating(true);
         if (folderTitle.trim() !== selectedFolder.title) {
           console.log(
-            "Updating folder:",
+            'Updating folder:',
             selectedFolder._id,
-            "with new title:",
+            'with new title:',
             folderTitle.trim()
           );
           await onEdit(selectedFolder._id, { title: folderTitle.trim() });
@@ -119,10 +119,10 @@ const FolderDetailModal = ({
             title: folderTitle.trim(),
           }));
         } else {
-          console.log("Title unchanged, skipping update");
+          console.log('Title unchanged, skipping update');
         }
       } catch (error) {
-        console.error("Error updating folder:", error);
+        console.error('Error updating folder:', error);
       } finally {
         setIsUpdating(false);
         setEditMode(false);
@@ -146,10 +146,10 @@ const FolderDetailModal = ({
         // Then delete folder
         await onDelete(selectedFolder._id);
         // Show success message
-        toast.success("Xóa thư mục thành công!");
+        toast.success('Xóa thư mục thành công!');
       } catch (error) {
-        console.error("Error deleting folder:", error);
-        toast.error("Xóa thư mục thất bại. Vui lòng thử lại!");
+        console.error('Error deleting folder:', error);
+        toast.error('Xóa thư mục thất bại. Vui lòng thử lại!');
       }
     }
   };
@@ -177,18 +177,13 @@ const FolderDetailModal = ({
         onFlashcardChange(selectedFolder._id, updatedCount);
       }
     } catch (error) {
-      console.error("Error deleting flashcard:", error);
+      console.error('Error deleting flashcard:', error);
     }
   };
 
   const handleCreateFlashcard = () => {
     onClose();
-    navigate(routes.FLASHCARD_SNAPLANG, {
-      state: {
-        folderId: selectedFolder._id,
-        folderTitle: selectedFolder.title,
-      },
-    });
+    navigate(routes.FLASHCARD_SNAPLANG);
   };
 
   const handleStartStudy = () => {
@@ -206,32 +201,32 @@ const FolderDetailModal = ({
         fullWidth
         PaperProps={{
           sx: {
-            borderRadius: "20px",
-            overflow: "hidden",
-            boxShadow: "0 20px 50px rgba(0,0,0,0.1)",
-            height: "80vh",
-            maxHeight: "800px",
-            display: "flex",
-            flexDirection: "column",
+            borderRadius: '20px',
+            overflow: 'hidden',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.1)',
+            height: '80vh',
+            maxHeight: '800px',
+            display: 'flex',
+            flexDirection: 'column',
           },
         }}
       >
         {/* Header */}
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderBottom: "1px solid rgba(0,0,0,0.08)",
-            padding: "14px 20px",
-            backgroundColor: "#ffffff",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            borderBottom: '1px solid rgba(0,0,0,0.08)',
+            padding: '14px 20px',
+            backgroundColor: '#ffffff',
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Avatar
               sx={{
-                bgcolor: "rgba(59, 130, 246, 0.1)",
-                color: "rgb(59, 130, 246)",
+                bgcolor: 'rgba(59, 130, 246, 0.1)',
+                color: 'rgb(59, 130, 246)',
                 width: 40,
                 height: 40,
               }}
@@ -248,16 +243,16 @@ const FolderDetailModal = ({
                 autoFocus
                 inputProps={{ maxLength: 30 }}
                 sx={{
-                  minWidth: "220px",
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "10px",
+                  minWidth: '220px',
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '10px',
                   },
                 }}
               />
             ) : (
               <Typography
                 variant="h6"
-                sx={{ fontWeight: 600, color: "#1e293b" }}
+                sx={{ fontWeight: 600, color: '#1e293b' }}
               >
                 {selectedFolder.title}
               </Typography>
@@ -268,11 +263,11 @@ const FolderDetailModal = ({
                 label={`${selectedFolder.flashcard_count} flashcards`}
                 size="small"
                 sx={{
-                  height: "20px",
-                  fontSize: "0.75rem",
+                  height: '20px',
+                  fontSize: '0.75rem',
                   fontWeight: 500,
-                  bgcolor: "rgba(59, 130, 246, 0.1)",
-                  color: "rgb(59, 130, 246)",
+                  bgcolor: 'rgba(59, 130, 246, 0.1)',
+                  color: 'rgb(59, 130, 246)',
                 }}
               />
             )}
@@ -287,8 +282,8 @@ const FolderDetailModal = ({
                   color="inherit"
                   size="small"
                   sx={{
-                    borderRadius: "8px",
-                    textTransform: "none",
+                    borderRadius: '8px',
+                    textTransform: 'none',
                     fontWeight: 500,
                   }}
                 >
@@ -305,10 +300,10 @@ const FolderDetailModal = ({
                     folderTitle.trim() === selectedFolder.title
                   }
                   sx={{
-                    borderRadius: "8px",
-                    textTransform: "none",
+                    borderRadius: '8px',
+                    textTransform: 'none',
                     fontWeight: 500,
-                    boxShadow: "none",
+                    boxShadow: 'none',
                   }}
                 >
                   Lưu
@@ -324,10 +319,10 @@ const FolderDetailModal = ({
                     size="small"
                     onClick={handleStartStudy}
                     sx={{
-                      borderRadius: "8px",
-                      textTransform: "none",
+                      borderRadius: '8px',
+                      textTransform: 'none',
                       fontWeight: 500,
-                      boxShadow: "none",
+                      boxShadow: 'none',
                     }}
                   >
                     Bắt đầu học
@@ -340,10 +335,10 @@ const FolderDetailModal = ({
                   size="small"
                   onClick={handleCreateFlashcard}
                   sx={{
-                    borderRadius: "8px",
-                    textTransform: "none",
+                    borderRadius: '8px',
+                    textTransform: 'none',
                     fontWeight: 500,
-                    boxShadow: "none",
+                    boxShadow: 'none',
                   }}
                 >
                   Thêm Flashcard
@@ -351,9 +346,9 @@ const FolderDetailModal = ({
                 <IconButton
                   onClick={handleMenuOpen}
                   sx={{
-                    borderRadius: "8px",
-                    color: "#64748b",
-                    padding: "6px",
+                    borderRadius: '8px',
+                    color: '#64748b',
+                    padding: '6px',
                   }}
                 >
                   <MoreVert fontSize="small" />
@@ -361,9 +356,9 @@ const FolderDetailModal = ({
                 <IconButton
                   onClick={onClose}
                   sx={{
-                    borderRadius: "8px",
-                    color: "#64748b",
-                    padding: "6px",
+                    borderRadius: '8px',
+                    color: '#64748b',
+                    padding: '6px',
                   }}
                 >
                   <Close fontSize="small" />
@@ -374,46 +369,46 @@ const FolderDetailModal = ({
         </Box>
 
         {/* Content */}
-        <Box sx={{ flexGrow: 1, overflow: "auto", bgcolor: "#f8fafc", p: 3 }}>
+        <Box sx={{ flexGrow: 1, overflow: 'auto', bgcolor: '#f8fafc', p: 3 }}>
           {loading ? (
-            <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
               <CircularProgress />
             </Box>
           ) : flashcards.length === 0 ? (
             <Paper
               elevation={0}
               sx={{
-                textAlign: "center",
-                padding: "40px 20px",
-                borderRadius: "16px",
-                bgcolor: "#ffffff",
-                border: "1px dashed rgba(0,0,0,0.1)",
+                textAlign: 'center',
+                padding: '40px 20px',
+                borderRadius: '16px',
+                bgcolor: '#ffffff',
+                border: '1px dashed rgba(0,0,0,0.1)',
               }}
             >
               <Avatar
                 sx={{
-                  bgcolor: "rgba(59, 130, 246, 0.1)",
-                  color: "rgb(59, 130, 246)",
+                  bgcolor: 'rgba(59, 130, 246, 0.1)',
+                  color: 'rgb(59, 130, 246)',
                   width: 56,
                   height: 56,
-                  margin: "0 auto 16px",
+                  margin: '0 auto 16px',
                 }}
               >
                 <FolderOutlined sx={{ fontSize: 28 }} />
               </Avatar>
               <Typography
                 variant="h6"
-                sx={{ fontWeight: 600, color: "#1e293b", mb: 1 }}
+                sx={{ fontWeight: 600, color: '#1e293b', mb: 1 }}
               >
                 Chưa có flashcard nào
               </Typography>
               <Typography
                 variant="body2"
                 sx={{
-                  color: "#64748b",
+                  color: '#64748b',
                   mb: 3,
-                  maxWidth: "400px",
-                  mx: "auto",
+                  maxWidth: '400px',
+                  mx: 'auto',
                 }}
               >
                 Hãy tạo flashcard đầu tiên để bắt đầu học tập hiệu quả
@@ -424,11 +419,11 @@ const FolderDetailModal = ({
                 startIcon={<Add />}
                 onClick={handleCreateFlashcard}
                 sx={{
-                  borderRadius: "8px",
-                  textTransform: "none",
+                  borderRadius: '8px',
+                  textTransform: 'none',
                   fontWeight: 500,
-                  boxShadow: "none",
-                  padding: "6px 16px",
+                  boxShadow: 'none',
+                  padding: '6px 16px',
                 }}
               >
                 Tạo Flashcard Đầu Tiên
@@ -459,23 +454,23 @@ const FolderDetailModal = ({
         onClose={handleMenuClose}
         PaperProps={{
           sx: {
-            borderRadius: "12px",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
-            padding: "6px",
-            minWidth: "180px",
+            borderRadius: '12px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+            padding: '6px',
+            minWidth: '180px',
           },
         }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem
           onClick={handleEditClick}
           sx={{
-            borderRadius: "8px",
-            padding: "8px 12px",
-            margin: "2px 0",
-            "&:hover": {
-              backgroundColor: "rgba(59, 130, 246, 0.08)",
+            borderRadius: '8px',
+            padding: '8px 12px',
+            margin: '2px 0',
+            '&:hover': {
+              backgroundColor: 'rgba(59, 130, 246, 0.08)',
             },
           }}
         >
@@ -484,15 +479,15 @@ const FolderDetailModal = ({
             Đổi tên thư mục
           </Typography>
         </MenuItem>
-        <Divider sx={{ margin: "4px 0" }} />
+        <Divider sx={{ margin: '4px 0' }} />
         <MenuItem
           onClick={handleDeleteClick}
           sx={{
-            borderRadius: "8px",
-            padding: "8px 12px",
-            margin: "2px 0",
-            "&:hover": {
-              backgroundColor: "rgba(239, 68, 68, 0.08)",
+            borderRadius: '8px',
+            padding: '8px 12px',
+            margin: '2px 0',
+            '&:hover': {
+              backgroundColor: 'rgba(239, 68, 68, 0.08)',
             },
           }}
         >
@@ -511,17 +506,17 @@ const FolderDetailModal = ({
         fullWidth
         PaperProps={{
           sx: {
-            borderRadius: "16px",
-            boxShadow: "0 20px 50px rgba(0,0,0,0.15)",
+            borderRadius: '16px',
+            boxShadow: '0 20px 50px rgba(0,0,0,0.15)',
           },
         }}
       >
         <Box sx={{ p: 2.5 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
             <Avatar
               sx={{
-                bgcolor: "rgba(239, 68, 68, 0.1)",
-                color: "#ef4444",
+                bgcolor: 'rgba(239, 68, 68, 0.1)',
+                color: '#ef4444',
                 width: 36,
                 height: 36,
               }}
@@ -530,17 +525,17 @@ const FolderDetailModal = ({
             </Avatar>
             <Typography
               variant="h6"
-              sx={{ fontWeight: 600, fontSize: "1.1rem" }}
+              sx={{ fontWeight: 600, fontSize: '1.1rem' }}
             >
               Xóa thư mục
             </Typography>
           </Box>
 
-          <Typography variant="body2" sx={{ color: "#475569", mb: 1 }}>
-            Bạn có chắc chắn muốn xóa thư mục{" "}
+          <Typography variant="body2" sx={{ color: '#475569', mb: 1 }}>
+            Bạn có chắc chắn muốn xóa thư mục{' '}
             <span style={{ fontWeight: 600 }}>"{selectedFolder.title}"</span>?
           </Typography>
-          <Typography variant="body2" sx={{ color: "#475569", mb: 3 }}>
+          <Typography variant="body2" sx={{ color: '#475569', mb: 3 }}>
             Tất cả flashcards trong thư mục này sẽ bị xóa và không thể khôi
             phục.
           </Typography>
@@ -552,8 +547,8 @@ const FolderDetailModal = ({
               color="inherit"
               fullWidth
               sx={{
-                borderRadius: "8px",
-                textTransform: "none",
+                borderRadius: '8px',
+                textTransform: 'none',
                 fontWeight: 500,
                 p: 1,
               }}
@@ -566,10 +561,10 @@ const FolderDetailModal = ({
               color="error"
               fullWidth
               sx={{
-                borderRadius: "8px",
-                textTransform: "none",
+                borderRadius: '8px',
+                textTransform: 'none',
                 fontWeight: 500,
-                boxShadow: "none",
+                boxShadow: 'none',
                 p: 1,
               }}
             >

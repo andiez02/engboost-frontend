@@ -1,35 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   Dialog,
   DialogTitle,
+  DialogContent,
+  IconButton,
   Box,
   Typography,
   Button,
-  IconButton,
   TextField,
-  Divider,
-  Paper,
   CircularProgress,
   Menu,
   MenuItem,
   Avatar,
-  Chip,
   Stack,
 } from '@mui/material';
 import {
-  Delete,
+  Close as CloseIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Add as AddIcon,
   MoreVert,
-  Add,
   FolderOutlined,
-  Edit,
-  Close,
 } from '@mui/icons-material';
-import { routes } from '../../utils/constants';
-import { mockAdminFolderAPI } from '../../mock/adminFolderData';
+import { toast } from 'react-toastify';
 import FlashcardList from './FlashcardList';
 import EmptyFlashcardState from './EmptyFlashcardState';
 import FlashcardForm from './FlashcardForm';
+import {
+  getFlashcardsByFolderAPI,
+  deleteFlashcardAPI,
+  saveFlashcardsToFolderAPI,
+  makeFolderPublicAPI,
+} from '../../apis/index';
 
 const AdminFolderDetailModal = ({
   open,
@@ -37,48 +40,154 @@ const AdminFolderDetailModal = ({
   folder,
   onEdit,
   onDelete,
-  onFlashcardChange,
 }) => {
-  const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [editMode, setEditMode] = useState(false);
-  const [folderTitle, setFolderTitle] = useState('');
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
   const [flashcards, setFlashcards] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isAddingFlashcard, setIsAddingFlashcard] = useState(false);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [newTitle, setNewTitle] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedFolder, setSelectedFolder] = useState(null);
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [deleteFlashcardDialogOpen, setDeleteFlashcardDialogOpen] =
+    useState(false);
+  const [flashcardToDelete, setFlashcardToDelete] = useState(null);
+  const [publicDialogOpen, setPublicDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (open && folder && folder._id) {
-      setFolderTitle(folder.title);
+    if (open && folder) {
+      console.log('Setting selected folder:', folder);
+      console.log('Folder ID:', folder._id);
       setSelectedFolder(folder);
-      setEditMode(false);
-      fetchFlashcards();
+      setNewTitle(folder.title);
     } else {
-      // Reset states when modal is closed or folder is deleted
-      setFlashcards([]);
+      console.log('Clearing selected folder, open:', open, 'folder:', folder);
       setSelectedFolder(null);
-      setFolderTitle('');
-      setEditMode(false);
+      setNewTitle('');
+      setFlashcards([]);
     }
-  }, [folder, open]);
+  }, [open, folder]);
+
+  useEffect(() => {
+    if (selectedFolder) {
+      console.log('Fetching flashcards for selected folder:', selectedFolder);
+      console.log('Selected folder ID:', selectedFolder._id);
+      fetchFlashcards();
+    }
+  }, [selectedFolder]);
 
   const fetchFlashcards = async () => {
-    if (!folder?._id) return;
+    if (!selectedFolder) {
+      console.error('No selected folder found');
+      return;
+    }
 
-    setLoading(true);
     try {
-      const response = await mockAdminFolderAPI.getFlashcardsByFolder(
-        folder._id
-      );
-      setFlashcards(Array.isArray(response) ? response : []);
+      setLoading(true);
+      console.log('Fetching flashcards for folder:', selectedFolder._id);
+      const data = await getFlashcardsByFolderAPI(selectedFolder._id);
+      // Map english and vietnamese to front and back for display
+      const formattedData = data.map((card) => ({
+        ...card,
+        front: card.english,
+        back: card.vietnamese,
+      }));
+      console.log('Formatted flashcards:', formattedData);
+      setFlashcards(formattedData);
     } catch (error) {
       console.error('Error fetching flashcards:', error);
-      setFlashcards([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleCreateFlashcard = async (flashcardData) => {
+    if (!selectedFolder) {
+      toast.error('Không tìm thấy thư mục. Vui lòng thử lại!');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      console.log('Creating flashcard for folder:', selectedFolder._id);
+      console.log('Flashcard data:', flashcardData);
+      await saveFlashcardsToFolderAPI({
+        folder_id: selectedFolder._id,
+        create_new_folder: false,
+        folder_title: null,
+        flashcards: flashcardData.flashcards.map((card) => ({
+          english: card.english,
+          vietnamese: card.vietnamese,
+          imageUrl: card.image_url,
+          object: card.english, // Object is same as English word
+        })),
+      });
+      await fetchFlashcards();
+      setIsAddingFlashcard(false);
+
+      // Update folder's flashcard count
+      const updatedCount =
+        (selectedFolder.flashcard_count || 0) + flashcardData.flashcards.length;
+      const updatedFolder = {
+        ...selectedFolder,
+        flashcard_count: updatedCount,
+      };
+      setSelectedFolder(updatedFolder);
+
+      // Update parent folder list
+      if (onEdit) {
+        await onEdit(selectedFolder._id, {
+          title: selectedFolder.title,
+          is_public: selectedFolder.is_public,
+        });
+      }
+
+      toast.success('Thêm từ vựng thành công!');
+    } catch (error) {
+      console.error('Error creating flashcard:', error);
+      toast.error('Thêm từ vựng thất bại. Vui lòng thử lại!');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDeleteFlashcardClick = (flashcardId) => {
+    setFlashcardToDelete(flashcardId);
+    setDeleteFlashcardDialogOpen(true);
+  };
+
+  const handleConfirmDeleteFlashcard = async () => {
+    if (!flashcardToDelete || !selectedFolder) return;
+
+    try {
+      await deleteFlashcardAPI(flashcardToDelete);
+      // Update local state
+      setFlashcards(
+        flashcards.filter((card) => card._id !== flashcardToDelete)
+      );
+
+      // Update folder's flashcard count
+      const updatedCount = (selectedFolder.flashcard_count || 0) - 1;
+      const updatedFolder = {
+        ...selectedFolder,
+        flashcard_count: updatedCount,
+      };
+      setSelectedFolder(updatedFolder);
+
+      // Update parent folder list
+      if (onEdit) {
+        await onEdit(selectedFolder._id, {
+          title: selectedFolder.title,
+          is_public: selectedFolder.is_public,
+        });
+      }
+    } catch (error) {
+      console.error('Error deleting flashcard:', error);
+      toast.error('Xóa từ vựng thất bại. Vui lòng thử lại!');
+    } finally {
+      setDeleteFlashcardDialogOpen(false);
+      setFlashcardToDelete(null);
     }
   };
 
@@ -91,33 +200,8 @@ const AdminFolderDetailModal = ({
   };
 
   const handleEditClick = () => {
-    setEditMode(true);
+    setIsEditingTitle(true);
     handleMenuClose();
-  };
-
-  const handleSaveEdit = async () => {
-    if (folderTitle.trim() && onEdit && selectedFolder && selectedFolder._id) {
-      try {
-        setIsUpdating(true);
-        if (folderTitle.trim() !== selectedFolder.title) {
-          await onEdit(selectedFolder._id, {
-            title: folderTitle.trim(),
-            isPublic: true,
-          });
-          setSelectedFolder((prev) => ({
-            ...prev,
-            title: folderTitle.trim(),
-          }));
-        }
-      } catch (error) {
-        console.error('Error updating folder:', error);
-      } finally {
-        setIsUpdating(false);
-        setEditMode(false);
-      }
-    } else {
-      setEditMode(false);
-    }
   };
 
   const handleDeleteClick = () => {
@@ -125,93 +209,82 @@ const AdminFolderDetailModal = ({
     setDeleteDialogOpen(true);
   };
 
-  const handleConfirmDelete = async () => {
-    if (onDelete && selectedFolder) {
-      try {
-        setDeleteDialogOpen(false);
-        onClose();
-        await onDelete(selectedFolder._id);
-      } catch (error) {
-        console.error('Error deleting folder:', error);
-      }
-    }
-  };
+  const handleSaveEdit = async () => {
+    if (!newTitle.trim() || !selectedFolder) return;
 
-  const handleRemoveCard = async (cardId) => {
     try {
-      await mockAdminFolderAPI.deleteFlashcard(cardId);
-      setFlashcards(flashcards.filter((card) => card._id !== cardId));
-      const updatedCount = (selectedFolder.flashcard_count || 0) - 1;
-      const updatedFolder = {
-        ...selectedFolder,
-        flashcard_count: updatedCount,
-      };
-      setSelectedFolder(updatedFolder);
-
-      if (onFlashcardChange) {
-        onFlashcardChange(selectedFolder._id, updatedCount);
+      setIsSubmitting(true);
+      if (newTitle.trim() !== selectedFolder.title) {
+        const response = await onEdit(selectedFolder._id, {
+          title: newTitle.trim(),
+          is_public: selectedFolder.is_public,
+        });
+        if (response && response.folder) {
+          setSelectedFolder(response.folder);
+          setIsEditingTitle(false);
+          toast.success(response.message);
+        }
+      } else {
+        setIsEditingTitle(false);
       }
     } catch (error) {
-      console.error('Error deleting flashcard:', error);
+      console.error('Error updating folder:', error);
+      toast.error('Cập nhật tên thư mục thất bại. Vui lòng thử lại!');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleCreateFlashcard = () => {
-    setIsFormOpen(true);
+  const handleConfirmDelete = async () => {
+    if (!selectedFolder) return;
+
+    try {
+      setIsSubmitting(true);
+      await onDelete(selectedFolder._id);
+      setDeleteDialogOpen(false);
+      onClose();
+      toast.success('Xóa thư mục thành công!');
+    } catch (error) {
+      console.error('Error deleting folder:', error);
+      toast.error('Xóa thư mục thất bại. Vui lòng thử lại!');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleSubmitFlashcard = async (newFlashcard) => {
-    if (
-      newFlashcard.front.trim() &&
-      newFlashcard.back.trim() &&
-      selectedFolder &&
-      selectedFolder._id
-    ) {
-      try {
-        setIsUpdating(true);
+  const handleConfirmTogglePublic = async () => {
+    if (!selectedFolder) return;
 
-        // Generate a simple ID for the new flashcard
-        const newId = `${selectedFolder._id}-${Date.now()}`;
-        const newCard = {
-          _id: newId,
-          front: newFlashcard.front.trim(),
-          back: newFlashcard.back.trim(),
-          image_url: newFlashcard.image_url,
-          folder_id: selectedFolder._id,
-          isPublic: true,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
-
-        // Add to local state first for immediate UI update
-        setFlashcards([...flashcards, newCard]);
-
-        // Update folder count
-        const updatedCount = (selectedFolder.flashcard_count || 0) + 1;
-        const updatedFolder = {
-          ...selectedFolder,
-          flashcard_count: updatedCount,
-        };
-        setSelectedFolder(updatedFolder);
-
-        if (onFlashcardChange) {
-          onFlashcardChange(selectedFolder._id, updatedCount);
+    try {
+      setIsSubmitting(true);
+      const newPublicStatus = !selectedFolder.is_public;
+      const response = await makeFolderPublicAPI(
+        selectedFolder._id,
+        newPublicStatus
+      );
+      if (response && response.folder) {
+        setSelectedFolder(response.folder);
+        // Update parent folder list
+        if (onEdit) {
+          await onEdit(selectedFolder._id, {
+            title: selectedFolder.title,
+            is_public: response.folder.is_public,
+          });
         }
-
-        // Close form
-        setIsFormOpen(false);
-      } catch (error) {
-        console.error('Error adding flashcard:', error);
-      } finally {
-        setIsUpdating(false);
+        toast.success(
+          response.message ||
+            (newPublicStatus
+              ? 'Đã chuyển thư mục thành công khai'
+              : 'Đã chuyển thư mục thành riêng tư')
+        );
       }
-    } else {
-      setIsFormOpen(false);
+    } catch (error) {
+      console.error('Error updating folder public status:', error);
+      toast.error('Cập nhật trạng thái thư mục thất bại. Vui lòng thử lại!');
+    } finally {
+      setIsSubmitting(false);
+      setPublicDialogOpen(false);
     }
-  };
-
-  const handleCancelForm = () => {
-    setIsFormOpen(false);
   };
 
   if (!selectedFolder) return null;
@@ -225,104 +298,58 @@ const AdminFolderDetailModal = ({
         fullWidth
         PaperProps={{
           sx: {
-            borderRadius: '12px',
-            overflow: 'hidden',
-            boxShadow: '0 20px 50px rgba(0,0,0,0.1)',
-            height: '80vh',
-            maxHeight: '800px',
-            display: 'flex',
-            flexDirection: 'column',
+            borderRadius: '16px',
+            maxHeight: '90vh',
+            transition: 'all 0.2s ease-in-out',
+            transform: open ? 'scale(1)' : 'scale(0.95)',
+            opacity: open ? 1 : 0,
           },
         }}
       >
-        {/* Header */}
-        <Box
+        <DialogTitle
           sx={{
+            m: 0,
+            p: 2,
             display: 'flex',
-            justifyContent: 'space-between',
             alignItems: 'center',
-            p: '16px 24px',
-            backgroundColor: '#ffffff',
-            borderBottom: '1px solid rgba(0,0,0,0.06)',
+            justifyContent: 'space-between',
+            borderBottom: '1px solid rgba(0,0,0,0.08)',
           }}
+          component="div"
         >
-          <Box>
-            {editMode ? (
-              <TextField
-                value={folderTitle}
-                onChange={(e) => setFolderTitle(e.target.value)}
-                variant="outlined"
-                size="small"
-                autoFocus
-                inputProps={{ maxLength: 50 }}
-                fullWidth
-                sx={{
-                  minWidth: '260px',
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: '8px',
-                    fontSize: '1.1rem',
-                    fontWeight: 600,
-                  },
-                }}
-              />
-            ) : (
-              <Typography
-                variant="h6"
-                sx={{ fontWeight: 600, color: '#1e293b' }}
-              >
-                {folder?.title || 'Thư mục'}
-              </Typography>
-            )}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <Avatar
+              sx={{
+                bgcolor: 'rgba(59, 130, 246, 0.1)',
+                color: 'rgb(59, 130, 246)',
+                width: 40,
+                height: 40,
+              }}
+            >
+              <FolderOutlined fontSize="small" />
+            </Avatar>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
-              <Chip
-                size="small"
-                label={`${folder?.flashcard_count || 0} từ vựng`}
-                sx={{
-                  backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                  color: 'rgb(59, 130, 246)',
-                  fontWeight: 500,
-                  fontSize: '0.75rem',
-                  height: '24px',
-                }}
-              />
-              <Typography
-                variant="caption"
-                sx={{ ml: 2, color: '#64748b', fontStyle: 'italic' }}
-              >
-                Danh sách từ vựng công khai
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {editMode ? (
-              <>
-                <Button
-                  variant="outlined"
+            {isEditingTitle ? (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <TextField
                   size="small"
-                  onClick={() => {
-                    setEditMode(false);
-                    setFolderTitle(folder?.title || '');
-                  }}
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
                   sx={{
-                    borderRadius: '8px',
-                    textTransform: 'none',
-                    mr: 1,
-                    borderColor: 'rgba(0,0,0,0.12)',
-                    color: '#64748b',
+                    width: '300px',
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '8px',
+                    },
                   }}
-                >
-                  Hủy
-                </Button>
+                />
                 <Button
                   variant="contained"
                   size="small"
                   onClick={handleSaveEdit}
                   disabled={
-                    !folderTitle.trim() ||
-                    folderTitle.trim() === folder?.title ||
-                    isUpdating
+                    isSubmitting ||
+                    !newTitle.trim() ||
+                    newTitle.trim() === selectedFolder.title
                   }
                   sx={{
                     borderRadius: '8px',
@@ -333,79 +360,116 @@ const AdminFolderDetailModal = ({
                       bgcolor: '#2563eb',
                       boxShadow: 'none',
                     },
-                    '&.Mui-disabled': {
-                      bgcolor: 'rgba(59, 130, 246, 0.4)',
-                      color: '#fff',
-                    },
                   }}
                 >
                   Lưu
                 </Button>
-              </>
-            ) : (
-              <>
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   size="small"
-                  startIcon={<Add />}
-                  onClick={handleCreateFlashcard}
+                  onClick={() => {
+                    setIsEditingTitle(false);
+                    setNewTitle(selectedFolder.title);
+                  }}
                   sx={{
                     borderRadius: '8px',
                     textTransform: 'none',
-                    mr: 1,
-                    boxShadow: 'none',
-                    bgcolor: '#3b82f6',
+                    borderColor: 'rgba(0,0,0,0.12)',
+                    color: '#64748b',
                     '&:hover': {
-                      bgcolor: '#2563eb',
-                      boxShadow: 'none',
+                      borderColor: 'rgba(0,0,0,0.24)',
+                      bgcolor: 'rgba(0,0,0,0.02)',
                     },
                   }}
                 >
-                  Thêm từ mới
+                  Hủy
                 </Button>
+              </Box>
+            ) : (
+              <>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  {selectedFolder.title}
+                </Typography>
                 <IconButton
-                  onClick={handleMenuOpen}
                   size="small"
-                  sx={{ mr: 1 }}
+                  onClick={handleMenuOpen}
+                  sx={{
+                    color: '#64748b',
+                    '&:hover': {
+                      bgcolor: 'rgba(0,0,0,0.02)',
+                    },
+                  }}
                 >
                   <MoreVert fontSize="small" />
                 </IconButton>
-                <IconButton onClick={onClose} size="small">
-                  <Close fontSize="small" />
-                </IconButton>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddIcon />}
+                  size="small"
+                  onClick={() => setIsAddingFlashcard(true)}
+                  sx={{
+                    borderRadius: '8px',
+                    textTransform: 'none',
+                    fontWeight: 500,
+                    boxShadow: 'none',
+                  }}
+                >
+                  Thêm từ vựng
+                </Button>
               </>
             )}
           </Box>
-        </Box>
+          <IconButton
+            onClick={onClose}
+            sx={{
+              color: '#64748b',
+              '&:hover': {
+                bgcolor: 'rgba(0,0,0,0.02)',
+              },
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
 
-        {/* Content */}
-        <Box sx={{ flexGrow: 1, overflow: 'auto', bgcolor: '#f9fafb', p: 3 }}>
+        <DialogContent sx={{ p: 0 }}>
           {loading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-              <CircularProgress size={32} sx={{ color: '#3b82f6' }} />
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: '400px',
+              }}
+            >
+              <CircularProgress size={24} />
             </Box>
-          ) : flashcards.length === 0 ? (
-            <EmptyFlashcardState onAddFirst={handleCreateFlashcard} />
           ) : (
-            <FlashcardList
-              flashcards={flashcards}
-              loading={loading}
-              onDeleteCard={handleRemoveCard}
-            />
-          )}
-        </Box>
+            <>
+              {flashcards.length === 0 ? (
+                <EmptyFlashcardState
+                  onAddClick={() => setIsAddingFlashcard(true)}
+                />
+              ) : (
+                <FlashcardList
+                  flashcards={flashcards}
+                  onDeleteCard={handleDeleteFlashcardClick}
+                />
+              )}
 
-        {/* Flashcard Form */}
-        {isFormOpen && (
-          <FlashcardForm
-            onSubmit={handleSubmitFlashcard}
-            onCancel={handleCancelForm}
-            isSubmitting={isUpdating}
-          />
-        )}
+              {isAddingFlashcard && (
+                <FlashcardForm
+                  onSubmit={handleCreateFlashcard}
+                  onCancel={() => setIsAddingFlashcard(false)}
+                  isSubmitting={isSubmitting}
+                />
+              )}
+            </>
+          )}
+        </DialogContent>
       </Dialog>
 
-      {/* Menu for folder actions */}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -413,118 +477,127 @@ const AdminFolderDetailModal = ({
         PaperProps={{
           sx: {
             mt: 1,
-            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
             borderRadius: '12px',
-            minWidth: '160px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+            minWidth: '180px',
           },
         }}
       >
-        <MenuItem
-          onClick={handleEditClick}
-          sx={{
-            py: 1.5,
-            px: 2,
-            '&:hover': { bgcolor: 'rgba(59, 130, 246, 0.08)' },
-          }}
-        >
-          <Edit fontSize="small" sx={{ mr: 1.5, color: '#3b82f6' }} />
-          <Typography variant="body2" sx={{ fontWeight: 500 }}>
-            Đổi tên thư mục
-          </Typography>
+        <MenuItem onClick={handleEditClick}>
+          <EditIcon fontSize="small" sx={{ mr: 1.5, color: '#64748b' }} />
+          Chỉnh sửa
         </MenuItem>
-
-        <Divider sx={{ my: 0.5 }} />
-
-        <MenuItem
-          onClick={handleDeleteClick}
-          sx={{
-            color: '#ef4444',
-            py: 1.5,
-            px: 2,
-            '&:hover': { bgcolor: 'rgba(239, 68, 68, 0.08)' },
-          }}
-        >
-          <Delete fontSize="small" sx={{ mr: 1.5 }} />
-          <Typography variant="body2" sx={{ fontWeight: 500 }}>
-            Xóa thư mục
-          </Typography>
+        <MenuItem onClick={handleDeleteClick}>
+          <DeleteIcon fontSize="small" sx={{ mr: 1.5, color: '#ef4444' }} />
+          Xóa thư mục
         </MenuItem>
       </Menu>
 
-      {/* Delete Confirmation Dialog */}
       <Dialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
-        maxWidth="xs"
-        fullWidth
         PaperProps={{
           sx: {
             borderRadius: '16px',
-            boxShadow: '0 20px 50px rgba(0,0,0,0.15)',
+            p: 2,
+            maxWidth: '400px',
+            width: '100%',
           },
         }}
       >
-        <Box sx={{ p: 2.5 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-            <Avatar
-              sx={{
-                bgcolor: 'rgba(239, 68, 68, 0.1)',
-                color: '#ef4444',
-                width: 36,
-                height: 36,
-              }}
-            >
-              <Delete fontSize="small" />
-            </Avatar>
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: 600, fontSize: '1.1rem' }}
-            >
-              Xóa thư mục
-            </Typography>
-          </Box>
+        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+          Xác nhận xóa thư mục
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#64748b', mb: 3 }}>
+          Bạn có chắc chắn muốn xóa thư mục này? Hành động này không thể hoàn
+          tác.
+        </Typography>
+        <Stack direction="row" spacing={1.5}>
+          <Button
+            onClick={() => setDeleteDialogOpen(false)}
+            variant="outlined"
+            color="inherit"
+            fullWidth
+            sx={{
+              borderRadius: '8px',
+              textTransform: 'none',
+              fontWeight: 500,
+              p: 1,
+            }}
+          >
+            Hủy
+          </Button>
+          <Button
+            onClick={handleConfirmDelete}
+            variant="contained"
+            color="error"
+            fullWidth
+            disabled={isSubmitting}
+            sx={{
+              borderRadius: '8px',
+              textTransform: 'none',
+              fontWeight: 500,
+              boxShadow: 'none',
+              p: 1,
+            }}
+          >
+            Xóa thư mục
+          </Button>
+        </Stack>
+      </Dialog>
 
-          <Typography variant="body2" sx={{ color: '#475569', mb: 1 }}>
-            Bạn có chắc chắn muốn xóa thư mục{' '}
-            <span style={{ fontWeight: 600 }}>"{selectedFolder.title}"</span>?
-          </Typography>
-          <Typography variant="body2" sx={{ color: '#475569', mb: 3 }}>
-            Tất cả flashcards trong thư mục này sẽ bị xóa và không thể khôi
-            phục.
-          </Typography>
-
-          <Stack direction="row" spacing={1.5}>
-            <Button
-              onClick={() => setDeleteDialogOpen(false)}
-              variant="outlined"
-              color="inherit"
-              fullWidth
-              sx={{
-                borderRadius: '8px',
-                textTransform: 'none',
-                fontWeight: 500,
-                p: 1,
-              }}
-            >
-              Hủy
-            </Button>
-            <Button
-              onClick={handleConfirmDelete}
-              variant="contained"
-              color="error"
-              fullWidth
-              sx={{
-                borderRadius: '8px',
-                textTransform: 'none',
-                fontWeight: 500,
-                boxShadow: 'none',
-                p: 1,
-              }}
-            >
-              Xóa thư mục
-            </Button>
-          </Stack>
-        </Box>
+      <Dialog
+        open={deleteFlashcardDialogOpen}
+        onClose={() => setDeleteFlashcardDialogOpen(false)}
+        PaperProps={{
+          sx: {
+            borderRadius: '16px',
+            p: 2,
+            maxWidth: '400px',
+            width: '100%',
+          },
+        }}
+      >
+        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+          Xác nhận xóa từ vựng
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#64748b', mb: 3 }}>
+          Bạn có chắc chắn muốn xóa từ vựng này? Hành động này không thể hoàn
+          tác.
+        </Typography>
+        <Stack direction="row" spacing={1.5}>
+          <Button
+            onClick={() => setDeleteFlashcardDialogOpen(false)}
+            variant="outlined"
+            color="inherit"
+            fullWidth
+            sx={{
+              borderRadius: '8px',
+              textTransform: 'none',
+              fontWeight: 500,
+              p: 1,
+            }}
+          >
+            Hủy
+          </Button>
+          <Button
+            onClick={handleConfirmDeleteFlashcard}
+            variant="contained"
+            color="error"
+            fullWidth
+            disabled={isSubmitting}
+            className="interceptor-loading"
+            sx={{
+              borderRadius: '8px',
+              textTransform: 'none',
+              fontWeight: 500,
+              boxShadow: 'none',
+              p: 1,
+            }}
+          >
+            Xóa từ vựng
+          </Button>
+        </Stack>
       </Dialog>
     </>
   );
