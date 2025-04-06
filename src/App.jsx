@@ -16,10 +16,13 @@ import { selectCurrentUser } from './redux/user/userSlice.js';
 import AdminDashboard from './pages/Admin/AdminDashboard.jsx';
 import AdminSettings from './pages/AdminSettings/AdminSettings.jsx';
 import UserManagement from './pages/Admin/UserManagement.jsx';
-import CourseManagement from './pages/Admin/CourseManagement.jsx';
+import CourseManagement from './pages/Admin/CourseManagement/CourseManagement.jsx';
 import FlashcardManagement from './pages/Admin/FlashcardManagement.jsx';
 import BlogManagement from './pages/Admin/BlogManagement.jsx';
 import AdminLayout from './components/Layout/AdminLayout.jsx';
+import VideoPlayer from './components/VideoPlayer/VideoPlayer';
+import AdminVideoPlayer from './pages/Admin/CourseManagement/AdminVideoPlayer.jsx';
+import UserVideoPlayer from './pages/UserPage/MyCourse/UserVideoPlayer.jsx';
 
 const ProtectedRoute = ({ user, allowedRoles }) => {
   if (!user) return <Navigate to="/login" replace={true} />;
@@ -73,6 +76,10 @@ function App() {
         <Route path={routes.FLASHCARD_DISCOVER} element={<Flashcard />} />
         <Route path={routes.FLASHCARD_FOLDERS} element={<Flashcard />} />
         <Route path={routes.FLASHCARD_SNAPLANG} element={<Flashcard />} />
+        <Route
+          path="/my_course/:courseId/video"
+          element={<UserVideoPlayer />}
+        />
       </Route>
 
       {/* Protected Routes for ADMIN */}
@@ -103,6 +110,10 @@ function App() {
           <Route
             path={routes.ADMIN_BLOG_MANAGEMENT}
             element={<BlogManagement />}
+          />
+          <Route
+            path="/admin/courses/:courseId/video"
+            element={<AdminVideoPlayer />}
           />
         </Route>
 

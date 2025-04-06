@@ -1,8 +1,8 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { interceptorLoadingElements } from "./formatter";
-import { logoutUserAPI } from "../redux/user/userSlice";
-import { refreshTokenAPI } from "../apis";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { interceptorLoadingElements } from './formatter';
+import { logoutUserAPI } from '../redux/user/userSlice';
+import { refreshTokenAPI } from '../apis';
 
 //Khoong thể import {store} from '~/redux/store' theo cách thông thường ở đây (file js)
 //Giải pháp: //* Inject store: là 1 kt khi cần sử dụng biến redux store ở file ngoài phạm vi component
@@ -20,6 +20,7 @@ let authorizedAxiosInstance = axios.create();
 authorizedAxiosInstance.defaults.timeout = 1000 * 60 * 10;
 // withCredentials: Sẽ cho phép axios tự động gửi cookies trong mỗi request lên BE --> lưu JWT tokens (refresh & access) vào trong httpOnly Cookie của trình duyệt
 authorizedAxiosInstance.defaults.withCredentials = true;
+authorizedAxiosInstance.defaults.headers.common['Cache-Control'] = 'no-cache';
 
 //? Config Intercepter
 //* Add a request intercepter

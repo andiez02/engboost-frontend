@@ -1,31 +1,46 @@
-import React, { useEffect } from "react";
-import Header from "../../components/Layout/Header";
-import Footer from "../../components/Layout/Footer";
-import landingImage from "../../assets/home/landing-img.png";
-import homeImage1 from "../../assets/home/home-img-1.png";
-import homeImage1Sub1 from "../../assets/home/home-img-1.1.png";
-import homeImage1Sub2 from "../../assets/home/home-img-1.2.png";
-import homeImage2 from "../../assets/home/home-img-2.png";
-import homeImage2Sub1 from "../../assets/home/home-img-2.1.png";
-import homeImage2Sub2 from "../../assets/home/home-img-2.2.png";
-import homeImage3 from "../../assets/home/home-img-3.png";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import HomeToFlashcardButton from "../../components/Button/HomeToFlashcardButton";
+import React, { useEffect } from 'react';
+import Header from '../../components/Layout/Header';
+import Footer from '../../components/Layout/Footer';
+import landingImage from '../../assets/home/landing-img.png';
+import homeImage1 from '../../assets/home/home-img-1.png';
+import homeImage1Sub1 from '../../assets/home/home-img-1.1.png';
+import homeImage1Sub2 from '../../assets/home/home-img-1.2.png';
+import homeImage2 from '../../assets/home/home-img-2.png';
+import homeImage2Sub1 from '../../assets/home/home-img-2.1.png';
+import homeImage2Sub2 from '../../assets/home/home-img-2.2.png';
+import homeImage3 from '../../assets/home/home-img-3.png';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import HomeToFlashcardButton from '../../components/Button/HomeToFlashcardButton';
 
 function Home() {
   useEffect(() => {
-    AOS.init({
-      duration: 1200,
-      once: true,
-      offset: 300,
-      easing: "ease-out",
-      anchorPlacement: "center-bottom",
-      disable: "mobile",
-      startEvent: "load",
-      disableMutationObserver: true,
-    });
+    // Wait for window load event to ensure all content is ready
+    const handleLoad = () => {
+      AOS.init({
+        duration: 800,
+        once: false,
+        offset: 100,
+        easing: 'ease-out',
+        delay: 0,
+        disable: false,
+      });
+
+      // Force refresh AOS after initialization
+      setTimeout(() => {
+        AOS.refresh();
+      }, 100);
+    };
+
+    // If window already loaded, initialize immediately
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+      return () => window.removeEventListener('load', handleLoad);
+    }
   }, []);
+
   return (
     <>
       <Header />
@@ -39,11 +54,11 @@ function Home() {
       </div>
       <div>
         <section className="min-h-screen bg-blue-100 flex flex-col items-center pb-20">
-          <div className="mt-20 text-3xl">
+          <div className="mt-20 text-3xl" data-aos="fade-down">
             <span className="text-[#2F327D]">Giới thiệu về </span>
             <span className="text-[#4c85F4]">ENGBOOST</span>
           </div>
-          <div className="mt-10 px-60 text-center">
+          <div className="mt-10 px-60 text-center" data-aos="fade-up">
             <p className="text-lg">
               ENGBOOST cho phép bạn tải lên ảnh, nhận diện vật thể và hiển thị
               từ vựng liên quan kèm nghĩa, phiên âm. Dễ dàng lưu lại, ôn tập và
@@ -53,10 +68,7 @@ function Home() {
 
           <div
             data-aos="fade-right"
-            data-aos-duration="1200"
-            data-aos-offset="300"
-            data-aos-easing="ease-out"
-            data-aos-anchor-placement="center-bottom"
+            data-aos-duration="800"
             className="mt-40 mx-36 flex items-center gap-20"
           >
             <div className="w-3/5">
@@ -74,7 +86,7 @@ function Home() {
               </p>
             </div>
 
-            <div className="relative">
+            <div className="relative" data-aos="zoom-in" data-aos-delay="200">
               <img
                 src={homeImage1Sub2}
                 alt=""
@@ -93,13 +105,10 @@ function Home() {
 
           <div
             data-aos="fade-left"
-            data-aos-duration="1200"
-            data-aos-offset="300"
-            data-aos-easing="ease-out"
-            data-aos-anchor-placement="center-bottom"
-            className="mt-40 mx-36 flex items-center gap-20 "
+            data-aos-duration="800"
+            className="mt-40 mx-36 flex items-center gap-20"
           >
-            <div className="relative">
+            <div className="relative" data-aos="zoom-in" data-aos-delay="200">
               <img
                 src={homeImage2Sub1}
                 alt="Image 2"
@@ -109,7 +118,7 @@ function Home() {
               <img
                 src={homeImage2Sub2}
                 alt="Image 2"
-                className="absolute  -top-6 -right-12"
+                className="absolute -top-6 -right-12"
               />
             </div>
 
@@ -129,10 +138,7 @@ function Home() {
 
           <div
             data-aos="fade-right"
-            data-aos-duration="1200"
-            data-aos-offset="300"
-            data-aos-easing="ease-out"
-            data-aos-anchor-placement="center-bottom"
+            data-aos-duration="800"
             className="mt-40 mx-36 flex items-center gap-20"
           >
             <div className="w-3/5">
@@ -147,7 +153,7 @@ function Home() {
                 sống hàng ngày.
               </p>
             </div>
-            <div>
+            <div data-aos="zoom-in" data-aos-delay="200">
               <img src={homeImage3} alt="Image 1" />
             </div>
           </div>
@@ -159,10 +165,7 @@ function Home() {
           <div
             className="bg-white shadow-lg rounded-xl p-6 text-center"
             data-aos="zoom-in"
-            data-aos-duration="1000"
-            data-aos-offset="250"
-            data-aos-easing="ease-out"
-            data-aos-anchor-placement="center-bottom"
+            data-aos-duration="800"
           >
             <h3 className="text-xl font-semibold mb-2">
               <span>📸 Chụp ảnh, nhận diện từ vựng</span>
@@ -177,10 +180,7 @@ function Home() {
             className="bg-white shadow-lg rounded-xl p-6 text-center"
             data-aos="zoom-in"
             data-aos-delay="200"
-            data-aos-duration="1000"
-            data-aos-offset="250"
-            data-aos-easing="ease-out"
-            data-aos-anchor-placement="center-bottom"
+            data-aos-duration="800"
           >
             <h3 className="text-xl font-semibold mb-2">
               📖 Ôn tập từ vựng đã học
@@ -192,10 +192,7 @@ function Home() {
             className="bg-white shadow-lg rounded-xl p-6 text-center"
             data-aos="zoom-in"
             data-aos-delay="400"
-            data-aos-duration="1000"
-            data-aos-offset="250"
-            data-aos-easing="ease-out"
-            data-aos-anchor-placement="center-bottom"
+            data-aos-duration="800"
           >
             <h3 className="text-xl font-semibold mb-2">
               🎯 Cá nhân hoá lộ trình học

@@ -18,6 +18,9 @@ import {
   DialogActions,
   Avatar,
   Stack,
+  alpha,
+  useTheme,
+  Container,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -43,6 +46,7 @@ import {
 import { toast } from 'react-toastify';
 
 const FlashcardManagement = () => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const { folders, isLoading } = useSelector((state) => state.folders);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -157,35 +161,60 @@ const FlashcardManagement = () => {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Container maxWidth="xl">
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 3,
+          py: 4,
+          px: { xs: 2, sm: 3 },
+          borderRadius: 3,
+          mb: 4,
+          background: `linear-gradient(135deg, ${alpha(
+            theme.palette.primary.main,
+            0.1
+          )} 0%, ${alpha(theme.palette.primary.dark, 0.2)} 100%)`,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 600 }}>
-          Quản lý thư mục từ vựng
-        </Typography>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => setIsCreateDialogOpen(true)}
-          sx={{
-            borderRadius: '8px',
-            textTransform: 'none',
-            boxShadow: 'none',
-            bgcolor: '#3b82f6',
-            '&:hover': {
-              bgcolor: '#2563eb',
-              boxShadow: 'none',
-            },
-          }}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          flexWrap="wrap"
+          gap={2}
         >
-          Tạo thư mục mới
-        </Button>
+          <Box>
+            <Typography
+              variant="h4"
+              component="h1"
+              fontWeight={700}
+              color="primary.main"
+              gutterBottom
+            >
+              Quản lý thư mục từ vựng
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Tạo và quản lý các flashcard
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            onClick={() => setIsCreateDialogOpen(true)}
+            size="large"
+            sx={{
+              borderRadius: 2,
+              px: 3,
+              py: 1,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+              '&:hover': {
+                boxShadow: '0 6px 16px rgba(0,0,0,0.2)',
+              },
+            }}
+          >
+            Tạo thư mục mới
+          </Button>
+        </Box>
       </Box>
 
       <Grid container spacing={2}>
@@ -453,7 +482,7 @@ const FlashcardManagement = () => {
           </Button>
         </Stack>
       </Dialog>
-    </Box>
+    </Container>
   );
 };
 

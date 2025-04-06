@@ -30,6 +30,10 @@ export const routes = {
   //Flashcard Snaplang
   FLASHCARD_SNAPLANG: '/flashcard/snaplang',
 
+  // Courses
+  COURSES: '/courses',
+  COURSE_DETAIL: '/courses/:courseId',
+
   /* ADMIN */
   //Admin Dashboard
   ADMIN_DASHBOARD: '/admin/dashboard',

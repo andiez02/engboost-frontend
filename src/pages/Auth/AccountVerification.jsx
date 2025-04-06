@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, useSearchParams } from "react-router-dom";
-import PageLoadingSpinner from "../../components/Loading/PageLoadingSpinner";
-import { verifyUserAPI } from "../../apis";
+import React, { useEffect, useState } from 'react';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import PageLoadingSpinner from '../../components/Loading/PageLoadingSpinner';
+import { verifyUserAPI } from '../../apis';
 
 function AccountVerification() {
   let [searchParams] = useSearchParams();
-  const email = searchParams.get("email");
-  const token = searchParams.get("token");
+  const email = searchParams.get('email');
+  const token = searchParams.get('token');
 
   const [verified, setVerified] = useState(false);
 

@@ -125,3 +125,113 @@ export const saveFlashcardsToFolderAPI = async (data) => {
   );
   return response.data;
 };
+
+// Course APIs ADMIN
+// apis/user.js
+export const getListUsersAPI = async (page = 1, limit = 10, search = '') => {
+  try {
+    const queryParams = new URLSearchParams({
+      page,
+      limit,
+    });
+
+    if (search) {
+      queryParams.append('search', search);
+    }
+
+    const response = await authorizedAxiosInstance.get(
+      `${API_ROOT}/users/admin/users?${queryParams.toString()}`
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+  }
+};
+
+export const updateUserRoleAPI = async (userId, role) => {
+  const response = await authorizedAxiosInstance.put(
+    `${API_ROOT}/users/admin/users/${userId}/role`,
+    {
+      role,
+    }
+  );
+  return response.data;
+};
+
+export const deleteUserAPI = async (userId) => {
+  const response = await authorizedAxiosInstance.delete(
+    `${API_ROOT}/users/admin/users/${userId}`
+  );
+  return response.data;
+};
+
+export const getAllCoursesAPI = async () => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/courses`);
+  return response.data;
+};
+
+export const getCourseByIdAPI = async (courseId) => {
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/courses/${courseId}`
+  );
+  return response.data;
+};
+
+export const createCourseAPI = async (courseData) => {
+  const response = await authorizedAxiosInstance.post(
+    `${API_ROOT}/courses`,
+    courseData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
+  return response.data;
+};
+
+export const updateCourseAPI = async (courseId, courseData) => {
+  const response = await authorizedAxiosInstance.put(
+    `${API_ROOT}/courses/${courseId}`,
+    courseData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
+  return response.data;
+};
+
+export const deleteCourseAPI = async (courseId) => {
+  return authorizedAxiosInstance.delete(`${API_ROOT}/courses/${courseId}`);
+};
+
+// Course APIs USER
+export const getPublicCoursesAPI = async () => {
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/public-courses`
+  );
+  return response.data;
+};
+
+export const registerCourseAPI = async (courseId) => {
+  const response = await authorizedAxiosInstance.post(
+    `${API_ROOT}/courses/${courseId}/register`
+  );
+  return response.data;
+};
+
+export const getMyCoursesAPI = async () => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/my-courses`);
+  return response.data;
+};
+
+export const getMyCourseVideoAPI = async (courseId) => {
+  const response = await authorizedAxiosInstance.get(
+    `${API_ROOT}/my-courses/${courseId}`
+  );
+  return response.data;
+};

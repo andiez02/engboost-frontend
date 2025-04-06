@@ -13,51 +13,63 @@ export default function Sidebar({ isOpen }) {
 
   return (
     <div
-      className={`fixed top-15 left-0 h-[calc(100vh-3rem)] bg-white shadow-lg transition-all duration-300 ${
+      className={`fixed top-[var(--height-header)] left-0 h-[calc(100vh-var(--height-header))] bg-white shadow-lg transition-all duration-300 ${
         isOpen ? 'w-64' : 'w-16'
-      } flex flex-col p-3 overflow-y-auto`}
+      } flex flex-col py-3 overflow-hidden`}
     >
-      <ul className="space-y-2 flex-1">
+      <ul className="space-y-2 flex-1 w-full">
         {dashboardItems.map((item, index) => {
           const isActive = location.pathname.startsWith(item.path);
           const Icon = item.icon;
           return (
-            <li key={index}>
+            <li key={index} className="px-3">
               <div
-                className={`flex items-center gap-4 px-5 py-4 hover:bg-blue-200 rounded-xl cursor-pointer transition-all duration-300 ${
-                  isOpen ? 'justify-start' : 'justify-center'
-                } ${isActive ? 'bg-blue-200 ' : ''}`}
+                className={`flex items-center rounded-xl cursor-pointer ${
+                  isActive ? 'bg-blue-200' : 'hover:bg-blue-200'
+                }`}
                 onClick={() => navigate(item.path)}
               >
-                <Icon className="w-6 h-6 flex-shrink-0 text-gray-600" />
-                <span
-                  className={`text-[15px] w-full text-gray-700 transition-all duration-300 truncate ${
-                    isOpen ? 'opacity-100' : 'opacity-0 hidden'
+                {/* Fixed-width icon container */}
+                <div className="h-12 w-10 flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-6 h-6 text-gray-600" />
+                </div>
+
+                {/* Text container with fixed position */}
+                <div
+                  className={`h-12 flex items-center overflow-hidden ${
+                    isOpen ? 'w-auto' : 'w-0'
                   }`}
                 >
-                  {item.name}
-                </span>
+                  <span className="text-[15px] text-gray-700 whitespace-nowrap">
+                    {item.name}
+                  </span>
+                </div>
               </div>
             </li>
           );
         })}
       </ul>
 
-      <div className="mt-auto mb-10">
+      <div className="mt-auto px-3 mb-3">
         <div
-          className={`flex items-center gap-4 px-5 py-4 bg-gray-200 rounded-xl cursor-pointer transition-all duration-300 ${
-            isOpen ? 'justify-start' : 'justify-center'
-          }`}
+          className="flex items-center bg-gray-200 rounded-xl cursor-pointer"
           onClick={() => navigate('/')}
         >
-          <Home className="w-6 h-6 flex-shrink-0 text-gray-600" />
-          <span
-            className={`text-[15px] w-full text-gray-700 transition-all duration-300 truncate ${
-              isOpen ? 'opacity-100' : 'opacity-0 hidden'
+          {/* Fixed-width icon container */}
+          <div className="h-12 w-10 flex items-center justify-center flex-shrink-0">
+            <Home className="w-6 h-6 text-gray-600" />
+          </div>
+
+          {/* Text container with fixed position */}
+          <div
+            className={`h-12 flex items-center overflow-hidden ${
+              isOpen ? 'w-auto' : 'w-0'
             }`}
           >
-            Về trang chủ
-          </span>
+            <span className="text-[15px] text-gray-700 whitespace-nowrap">
+              Về trang chủ
+            </span>
+          </div>
         </div>
       </div>
     </div>
