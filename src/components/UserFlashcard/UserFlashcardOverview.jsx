@@ -1,12 +1,12 @@
-import { Button } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import FolderIcon from "@mui/icons-material/Folder";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { routes } from "../../utils/constants";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchFolders } from "../../redux/folder/folderSlice";
+import { Button } from '@mui/material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import FolderIcon from '@mui/icons-material/Folder';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { routes } from '../../utils/constants';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFolders } from '../../redux/folder/folderSlice';
 
 function UserFlashcardOverview() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function UserFlashcardOverview() {
         <div>
           <p className="text-base font-light text-gray-500 mb-2">
             {folders.length === 0
-              ? "Bạn chưa học list từ nào. Khám phá ngay hoặc bắt đầu tạo các list từ mới."
+              ? 'Bạn chưa học list từ nào. Khám phá ngay hoặc bắt đầu tạo các list từ mới.'
               : `Bạn đã có ${folders.length} thư mục với tổng cộng ${totalFlashcards} từ vựng.`}
           </p>
           {folders.length > 0 && (
@@ -55,7 +55,7 @@ function UserFlashcardOverview() {
               <div className="grid grid-cols-2 gap-3">
                 {displayedFolders.map((folder) => (
                   <div
-                    key={folder.id}
+                    key={`${folder.id}-${folder.title}`}
                     onClick={() => handleFolderClick(folder.id)}
                     className="bg-white px-4 py-3 rounded-lg text-sm text-gray-600 border border-gray-200 hover:border-indigo-500 hover:bg-indigo-50 cursor-pointer transition-all duration-200 flex items-center gap-3 shadow-sm hover:shadow-md"
                   >
@@ -90,9 +90,9 @@ function UserFlashcardOverview() {
             variant="contained"
             endIcon={<ArrowForwardIcon />}
             sx={{
-              alignSelf: "start",
-              "&:hover": { bgcolor: "#4F46E5" },
-              marginTop: "1rem",
+              alignSelf: 'start',
+              '&:hover': { bgcolor: '#4F46E5' },
+              marginTop: '1rem',
             }}
             onClick={() => navigate(routes.FLASHCARD_SNAPLANG)}
           >

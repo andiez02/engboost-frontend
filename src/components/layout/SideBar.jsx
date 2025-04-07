@@ -1,10 +1,17 @@
-import { LayoutDashboard, BookOpen, GraduationCap, Home } from 'lucide-react';
+import {
+  LayoutDashboard,
+  BookOpen,
+  GraduationCap,
+  Home,
+  BotMessageSquare,
+} from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const dashboardItems = [
   { name: 'Overview', icon: LayoutDashboard, path: '/dashboard' },
   { name: 'Flashcard', icon: BookOpen, path: '/flashcard' },
   { name: 'My Course', icon: GraduationCap, path: '/my_course' },
+  { name: 'AI', icon: BotMessageSquare, path: '/chatbot' },
 ];
 
 export default function Sidebar({ isOpen }) {
@@ -14,7 +21,7 @@ export default function Sidebar({ isOpen }) {
   return (
     <div
       className={`fixed top-[var(--height-header)] left-0 h-[calc(100vh-var(--height-header))] bg-white shadow-lg transition-all duration-300 ${
-        isOpen ? 'w-64' : 'w-16'
+        isOpen ? 'w-54' : 'w-18'
       } flex flex-col py-3 overflow-hidden`}
     >
       <ul className="space-y-2 flex-1 w-full">
@@ -30,7 +37,7 @@ export default function Sidebar({ isOpen }) {
                 onClick={() => navigate(item.path)}
               >
                 {/* Fixed-width icon container */}
-                <div className="h-12 w-10 flex items-center justify-center flex-shrink-0">
+                <div className="h-12 w-10 flex items-center justify-center flex-shrink-0 ml-1 mr-2">
                   <Icon className="w-6 h-6 text-gray-600" />
                 </div>
 
@@ -56,7 +63,7 @@ export default function Sidebar({ isOpen }) {
           onClick={() => navigate('/')}
         >
           {/* Fixed-width icon container */}
-          <div className="h-12 w-10 flex items-center justify-center flex-shrink-0">
+          <div className="h-12 w-10 flex items-center justify-center flex-shrink-0 ml-1 mr-2">
             <Home className="w-6 h-6 text-gray-600" />
           </div>
 

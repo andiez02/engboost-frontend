@@ -6,7 +6,6 @@ import Auth from './pages/Auth/Auth.jsx';
 import AccountVerification from './pages/Auth/AccountVerification.jsx';
 import Home from './pages/GeneralPage/Home.jsx';
 import Course from './pages/GeneralPage/Course.jsx';
-import Blog from './pages/GeneralPage/Blog.jsx';
 import Dashboard from './pages/UserPage/Dashboard/Dashboard.jsx';
 import Flashcard from './pages/UserPage/Flashcard/Flashcard.jsx';
 import MyCourse from './pages/UserPage/MyCourse/MyCourse.jsx';
@@ -19,10 +18,11 @@ import UserManagement from './pages/Admin/UserManagement.jsx';
 import CourseManagement from './pages/Admin/CourseManagement/CourseManagement.jsx';
 import FlashcardManagement from './pages/Admin/FlashcardManagement.jsx';
 import BlogManagement from './pages/Admin/BlogManagement.jsx';
-import AdminLayout from './components/Layout/AdminLayout.jsx';
-import VideoPlayer from './components/VideoPlayer/VideoPlayer';
 import AdminVideoPlayer from './pages/Admin/CourseManagement/AdminVideoPlayer.jsx';
 import UserVideoPlayer from './pages/UserPage/MyCourse/UserVideoPlayer.jsx';
+import ChatbotIntro from './pages/GeneralPage/ChatbotIntro.jsx';
+import Chatbot from './pages/UserPage/Chatbot/Chatbot.jsx';
+import AdminLayout from './components/Layout/AdminLayout.jsx';
 
 const ProtectedRoute = ({ user, allowedRoles }) => {
   if (!user) return <Navigate to="/login" replace={true} />;
@@ -60,7 +60,7 @@ function App() {
       {/* Public Pages */}
       <Route path={routes.HOME} element={<Home />} />
       <Route path={routes.COURSE} element={<Course />} />
-      <Route path={routes.BLOG} element={<Blog />} />
+      <Route path={routes.CHATBOT_INTRO} element={<ChatbotIntro />} />
 
       {/* Protected Routes for CLIENT */}
       <Route
@@ -76,6 +76,7 @@ function App() {
         <Route path={routes.FLASHCARD_DISCOVER} element={<Flashcard />} />
         <Route path={routes.FLASHCARD_FOLDERS} element={<Flashcard />} />
         <Route path={routes.FLASHCARD_SNAPLANG} element={<Flashcard />} />
+        <Route path={routes.CHATBOT} element={<Chatbot />} />
         <Route
           path="/my_course/:courseId/video"
           element={<UserVideoPlayer />}

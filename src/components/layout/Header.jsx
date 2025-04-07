@@ -44,7 +44,7 @@ function Header() {
   const dashboardItems = [
     { path: routes.HOME, name: 'Trang chủ' },
     { path: routes.COURSE, name: 'Khoá học' },
-    { path: routes.BLOG, name: 'Blog' },
+    { path: routes.CHATBOT_INTRO, name: 'AI' },
   ];
 
   // Determine header background class

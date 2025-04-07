@@ -463,7 +463,7 @@ const Course = () => {
                     {/* Duration badge */}
                     <Chip
                       icon={<AccessTimeIcon fontSize="small" />}
-                      label={formatDuration(course.video_duration)}
+                      label={formatDuration(Math.floor(course.video_duration))}
                       size="small"
                       sx={{
                         position: 'absolute',

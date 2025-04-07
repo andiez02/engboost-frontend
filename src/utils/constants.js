@@ -7,8 +7,9 @@ export const routes = {
   HOME: '/home',
   //Course
   COURSE: '/course',
-  //Blog
-  BLOG: '/blog',
+  //Chatbot
+  CHATBOT_INTRO: '/chatbot_intro',
+  CHATBOT: '/chatbot',
   //About Us
   ABOUT_US: '/about_us',
 

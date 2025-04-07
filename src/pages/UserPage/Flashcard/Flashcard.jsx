@@ -19,7 +19,7 @@ function Flashcard() {
 
       <div
         className={`flex-1 transition-all duration-300 overflow-y-auto ${
-          isSidebarOpen ? 'ml-64' : 'ml-16'
+          isSidebarOpen ? 'ml-58' : 'ml-16'
         } p-5`}
       >
         <HeaderUser

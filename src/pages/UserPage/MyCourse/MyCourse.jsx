@@ -99,7 +99,7 @@ function MyCourse() {
 
       <div
         className={`flex-1 transition-all duration-300 ${
-          isSidebarOpen ? 'ml-64' : 'ml-16'
+          isSidebarOpen ? 'ml-54' : 'ml-16'
         } p-5`}
       >
         <HeaderUser
@@ -107,7 +107,7 @@ function MyCourse() {
           setIsSidebarOpen={setIsSidebarOpen}
         />
 
-        <Container sx={{ mt: 8, minHeight: 'calc(100vh - 110px)' }}>
+        <Container sx={{ mt: 8, minHeight: 'calc(100vh - 16px)' }}>
           {loading ? (
             <Grid container spacing={4}>
               {[1, 2, 3, 4, 5, 6].map((item) => (

@@ -1,12 +1,12 @@
-import { useState } from "react";
-import HeaderUser from "../../../components/layout/HeaderUser";
-import Sidebar from "../../../components/Layout/SideBar";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../../redux/user/userSlice";
-import { Avatar } from "@mui/material";
-import UserCourseOverview from "../../../components/UserCourse/UserCourseOverView";
-import UserFlashcardOverview from "../../../components/UserFlashcard/UserFlashcardOverview";
-import LearningProgress from "../../../components/LearningProgress/LearningProgress";
+import { useState } from 'react';
+import Sidebar from '../../../components/Layout/SideBar';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../../redux/user/userSlice';
+import { Avatar } from '@mui/material';
+import UserCourseOverview from '../../../components/UserCourse/UserCourseOverView';
+import UserFlashcardOverview from '../../../components/UserFlashcard/UserFlashcardOverview';
+import LearningProgress from '../../../components/LearningProgress/LearningProgress';
+import HeaderUser from '../../../components/Layout/HeaderUser';
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -16,14 +16,14 @@ function Dashboard() {
     <div
       className="flex overflow-y-auto"
       style={{
-        backgroundColor: "#FDFAF6",
+        backgroundColor: '#FDFAF6',
       }}
     >
       <Sidebar isOpen={isSidebarOpen} />
 
       <div
         className={`flex-1 transition-all duration-300  ${
-          isSidebarOpen ? "ml-68" : "ml-20"
+          isSidebarOpen ? 'ml-58' : 'ml-20'
         } p-6`}
       >
         <HeaderUser
@@ -34,11 +34,11 @@ function Dashboard() {
         <div className="text-2xl min-h-screen font-semibold mt-[60px]">
           <div className="flex items-center">
             <Avatar
-              sx={{ width: 48, height: 48, mr: 2, cursor: "pointer" }}
+              sx={{ width: 48, height: 48, mr: 2, cursor: 'pointer' }}
               src={currentUser?.user?.avatar}
             />
             <div>
-              <span className="font-medium">Xin chào, </span>{" "}
+              <span className="font-medium">Xin chào, </span>{' '}
               <span className="font-medium">{currentUser?.user?.username}</span>
               <p className="font-light text-base">
                 Cùng Engboost tiến bộ mỗi ngày!

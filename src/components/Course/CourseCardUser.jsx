@@ -12,8 +12,8 @@ import {
 } from '@mui/material';
 import {
   AccessTime as AccessTimeIcon,
-  PlayCircleOutline as PlayCircleOutlineIcon,
-  CheckCircle as MuiCheckCircleIcon,
+  PlayArrow as PlayArrowIcon,
+  CheckCircle as CheckCircleIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { formatDuration } from '../../utils/formatter';
@@ -32,29 +32,25 @@ const CourseCardUser = ({ course, isRegistered }) => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        borderRadius: 3,
+        borderRadius: 2,
         overflow: 'hidden',
-        transition: 'all 0.3s ease',
-        border: '1px solid',
-        borderColor: isRegistered
-          ? alpha(theme.palette.success.main, 0.3)
-          : alpha(theme.palette.divider, 0.1),
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
         position: 'relative',
+        border: isRegistered
+          ? `1px solid ${alpha(theme.palette.success.main, 0.2)}`
+          : 'none',
         '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: '0 12px 20px rgba(0,0,0,0.1)',
+          transform: 'translateY(-6px)',
+          boxShadow: '0 10px 16px rgba(0,0,0,0.12)',
+          '& .play-overlay': {
+            opacity: 1,
+          },
         },
       }}
     >
-      <Box
-        className="course-thumbnail"
-        sx={{
-          position: 'relative',
-          paddingTop: '56.25%', // 16:9 aspect ratio
-          backgroundColor: alpha(theme.palette.primary.main, 0.05),
-          overflow: 'hidden',
-        }}
-      >
+      {/* Thumbnail Container */}
+      <Box sx={{ position: 'relative', paddingTop: '56.25%' }}>
         <CardMedia
           component="img"
           image={course.thumbnail_url || '/placeholder.jpg'}
@@ -66,14 +62,11 @@ const CourseCardUser = ({ course, isRegistered }) => {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            transition: 'transform 0.5s ease',
-            '&:hover': {
-              transform: 'scale(1.05)',
-            },
           }}
           loading="lazy"
         />
 
+        {/* Gradient Overlay */}
         <Box
           sx={{
             position: 'absolute',
@@ -82,78 +75,89 @@ const CourseCardUser = ({ course, isRegistered }) => {
             width: '100%',
             height: '100%',
             background:
-              'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)',
-            opacity: 0.8,
-            zIndex: 1,
+              'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 100%)',
           }}
         />
 
+        {/* Play Button Overlay */}
         <Box
-          className="play-button"
+          className="play-overlay"
           onClick={handleNavigateToVideo}
           sx={{
             position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%) scale(0.9)',
-            width: 60,
-            height: 60,
-            borderRadius: '50%',
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 2,
+            backgroundColor: 'rgba(0,0,0,0.3)',
             opacity: 0,
-            transition: 'all 0.3s ease',
+            transition: 'opacity 0.3s ease',
             cursor: 'pointer',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-            '&:hover': {
-              transform: 'translate(-50%, -50%) scale(1)',
-              backgroundColor: 'white',
-            },
+            zIndex: 2,
           }}
         >
-          <PlayCircleOutlineIcon
+          <Box
             sx={{
-              fontSize: 36,
-              color: theme.palette.primary.main,
+              width: 48,
+              height: 48,
+              borderRadius: '50%',
+              backgroundColor: 'white',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
             }}
-          />
+          >
+            <PlayArrowIcon
+              sx={{ color: theme.palette.primary.main, fontSize: 28 }}
+            />
+          </Box>
         </Box>
 
+        {/* Duration Chip */}
         <Chip
           icon={<AccessTimeIcon fontSize="small" />}
           label={formatDuration(course.video_duration)}
           size="small"
           sx={{
             position: 'absolute',
-            bottom: 12,
-            right: 12,
-            zIndex: 2,
-            backgroundColor: 'rgba(0,0,0,0.75)',
+            bottom: 8,
+            right: 8,
+            zIndex: 3,
+            backgroundColor: 'rgba(0,0,0,0.6)',
             color: 'white',
-            backdropFilter: 'blur(4px)',
+            height: 24,
             '& .MuiChip-icon': {
               color: 'white',
+              fontSize: 14,
+            },
+            '& .MuiChip-label': {
+              fontSize: 12,
+              padding: '0 8px',
             },
           }}
         />
       </Box>
 
-      <CardContent sx={{ flexGrow: 1, p: 3 }}>
+      {/* Content */}
+      <CardContent sx={{ flexGrow: 1, p: 2 }}>
         <Typography
           variant="h6"
           component="h2"
           gutterBottom
           sx={{
             fontWeight: 600,
-            fontSize: '1.1rem',
+            fontSize: '1rem',
+            lineHeight: 1.3,
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
-            height: 56,
+            mb: 1,
+            height: 42,
           }}
         >
           {course.title}
@@ -164,36 +168,37 @@ const CourseCardUser = ({ course, isRegistered }) => {
           color="text.secondary"
           sx={{
             display: '-webkit-box',
-            WebkitLineClamp: 3,
+            WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
             mb: 2,
-            height: 60,
+            fontSize: '0.875rem',
+            lineHeight: 1.5,
+            height: 42,
           }}
         >
           {course.description}
         </Typography>
 
-        <Box sx={{ mt: 'auto' }}>
-          <Button
-            variant="contained"
-            color={isRegistered ? 'success' : 'primary'}
-            fullWidth
-            onClick={handleNavigateToVideo}
-            sx={{
-              borderRadius: 2,
-              textTransform: 'none',
-              py: 1,
-              fontWeight: 600,
-              boxShadow: isRegistered
-                ? '0 4px 10px rgba(76, 175, 80, 0.2)'
-                : 'none',
-            }}
-            startIcon={isRegistered ? <MuiCheckCircleIcon /> : null}
-          >
-            {isRegistered ? 'Học ngay' : 'Xem chi tiết'}
-          </Button>
-        </Box>
+        <Button
+          variant={isRegistered ? 'contained' : 'outlined'}
+          color={isRegistered ? 'success' : 'primary'}
+          fullWidth
+          onClick={handleNavigateToVideo}
+          sx={{
+            mt: 'auto',
+            textTransform: 'none',
+            borderRadius: 1.5,
+            fontWeight: 500,
+            py: 0.75,
+            boxShadow: isRegistered
+              ? '0 2px 6px rgba(76, 175, 80, 0.2)'
+              : 'none',
+          }}
+          startIcon={isRegistered ? <PlayArrowIcon /> : null}
+        >
+          {isRegistered ? 'Học ngay' : 'Xem chi tiết'}
+        </Button>
       </CardContent>
     </Card>
   );

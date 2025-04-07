@@ -235,3 +235,18 @@ export const getMyCourseVideoAPI = async (courseId) => {
   );
   return response.data;
 };
+
+export const sendChatMessageAPI = async (message) => {
+  try {
+    const response = await authorizedAxiosInstance.post(
+      `${API_ROOT}/chatbot/chat`,
+      {
+        message: message,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('Error sending chat message:', error);
+    throw error;
+  }
+};
