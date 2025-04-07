@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import VideoPlayer from '../../../components/VideoPlayer/VideoPlayer';
 import { getMyCourseVideoAPI } from '../../../apis';
-import HeaderUser from '../../../components/layout/HeaderUser';
+import HeaderUser from '../../../components/Layout/HeaderUser';
 import Sidebar from '../../../components/Layout/SideBar';
 import { CircularProgress } from '@mui/material';
 const UserVideoPlayer = () => {

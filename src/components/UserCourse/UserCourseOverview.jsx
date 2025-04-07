@@ -5,7 +5,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { routes } from '../../utils/constants';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getMyCoursesAPI } from '../../apis'; // Import your API function
+import { getMyCoursesAPI } from '../../apis';
 
 function UserCourseOverview() {
   const navigate = useNavigate();

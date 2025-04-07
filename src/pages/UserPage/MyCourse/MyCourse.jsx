@@ -8,7 +8,7 @@ import {
   Box,
   Paper,
 } from '@mui/material';
-import HeaderUser from '../../../components/layout/HeaderUser';
+import HeaderUser from '../../../components/Layout/HeaderUser';
 import Sidebar from '../../../components/Layout/SideBar';
 import CourseCardUser from '../../../components/Course/CourseCardUser';
 import { getMyCoursesAPI } from '../../../apis';

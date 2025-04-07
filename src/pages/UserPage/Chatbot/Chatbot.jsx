@@ -36,7 +36,7 @@ import {
   Brain,
 } from 'lucide-react';
 import Sidebar from '../../../components/Layout/SideBar';
-import HeaderUser from '../../../components/layout/HeaderUser';
+import HeaderUser from '../../../components/Layout/HeaderUser';
 
 function ChatbotPage() {
   const theme = useTheme();

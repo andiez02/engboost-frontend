@@ -3,7 +3,7 @@ import Sidebar from '../../../components/Layout/SideBar';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../../redux/user/userSlice';
 import { Avatar } from '@mui/material';
-import UserCourseOverview from '../../../components/UserCourse/UserCourseOverView';
+import UserCourseOverview from '../../../components/UserCourse/UserCourseOverview';
 import UserFlashcardOverview from '../../../components/UserFlashcard/UserFlashcardOverview';
 import LearningProgress from '../../../components/LearningProgress/LearningProgress';
 import HeaderUser from '../../../components/Layout/HeaderUser';

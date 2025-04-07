@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import HeaderUser from '../../../components/layout/HeaderUser';
+import HeaderUser from '../../../components/Layout/HeaderUser';
 import Sidebar from '../../../components/Layout/SideBar';
 import FlashcardTab from './FlashcardTab/FlashcardTab';
 import card from '../../../assets/lotties/card.json';
