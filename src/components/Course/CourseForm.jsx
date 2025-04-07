@@ -133,21 +133,21 @@ const CourseForm = ({ open, onClose, course, onSuccess }) => {
     setThumbnailPreview(url);
   };
 
-  const clearVideoFile = () => {
-    setFormData((prev) => ({ ...prev, videoFile: null }));
-    setVideoPreview('');
-    if (videoInputRef.current) {
-      videoInputRef.current.value = '';
-    }
-  };
+  // const clearVideoFile = () => {
+  //   setFormData((prev) => ({ ...prev, videoFile: null }));
+  //   setVideoPreview('');
+  //   if (videoInputRef.current) {
+  //     videoInputRef.current.value = '';
+  //   }
+  // };
 
-  const clearThumbnailFile = () => {
-    setFormData((prev) => ({ ...prev, thumbnailFile: null }));
-    setThumbnailPreview('');
-    if (thumbnailInputRef.current) {
-      thumbnailInputRef.current.value = '';
-    }
-  };
+  // const clearThumbnailFile = () => {
+  //   setFormData((prev) => ({ ...prev, thumbnailFile: null }));
+  //   setThumbnailPreview('');
+  //   if (thumbnailInputRef.current) {
+  //     thumbnailInputRef.current.value = '';
+  //   }
+  // };
 
   const validate = () => {
     const newErrors = {};

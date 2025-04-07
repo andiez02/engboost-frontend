@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography, Button, Avatar, Paper } from '@mui/material';
 import { Add, FolderOutlined } from '@mui/icons-material';
 
-const EmptyFlashcardState = ({ onAddFirst }) => {
+const EmptyFlashcardState = () => {
   return (
     <Paper
       elevation={0}

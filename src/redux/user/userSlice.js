@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
-import authorizedAxiosInstance from "../../utils/authorizeAxios";
-import { API_ROOT } from "../../utils/constants";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+import authorizedAxiosInstance from '../../utils/authorizeAxios';
+import { API_ROOT } from '../../utils/constants';
 
 //Khởi tạo giá trị State của slice trong redux
 const initialState = {
@@ -10,7 +10,7 @@ const initialState = {
 
 //Các hành động gọi API (bất đồng bộ) và cập nhật dữ liệu vào Redux, dùng Middleware createAsyncThunk đi kèm với extraReducer
 export const loginUserAPI = createAsyncThunk(
-  "user/loginUserAPI",
+  'user/loginUserAPI',
   async (data) => {
     const request = await authorizedAxiosInstance.post(
       `${API_ROOT}/users/login`,
@@ -22,20 +22,20 @@ export const loginUserAPI = createAsyncThunk(
 );
 
 export const logoutUserAPI = createAsyncThunk(
-  "user/logoutUserAPI",
+  'user/logoutUserAPI',
   async (showSuccessMessage = true) => {
     const response = await authorizedAxiosInstance.delete(
       `${API_ROOT}/users/logout`
     );
     if (showSuccessMessage) {
-      toast.success("Logged out successfully!");
+      toast.success('Logged out successfully!');
     }
     return response.data;
   }
 );
 
 export const updateUserAPI = createAsyncThunk(
-  "user/updateUserAPI",
+  'user/updateUserAPI',
   async (data) => {
     const response = await authorizedAxiosInstance.put(
       `${API_ROOT}/users/update`,
@@ -47,7 +47,7 @@ export const updateUserAPI = createAsyncThunk(
 
 // Khởi tạo một Slice trong kho lưu trữ Redux store
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {},
   //ExtraReducers: Nơi xử lí dữ liệu bất đồng bộ
