@@ -20,7 +20,6 @@ const Chatbot = () => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [history, setHistory] = useState([]);
   const [displayedResponse, setDisplayedResponse] = useState('');
 
@@ -35,14 +34,13 @@ const Chatbot = () => {
         { ...prev[prev.length - 1], content: displayedResponse },
       ]);
     }
-  }, [displayedResponse]);
+  }, [displayedResponse, messages]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
 
     setLoading(true);
-    setError('');
     const newMessages = [...messages, { role: 'user', content: input }];
     setMessages(newMessages);
 
@@ -68,8 +66,8 @@ const Chatbot = () => {
           return newText;
         });
       }, 20);
-    } catch (err) {
-      setError('Lỗi kết nối đến AI');
+    } catch (error) {
+      console.log(error);
     } finally {
       setInput('');
       setLoading(false);
